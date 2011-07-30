@@ -2,16 +2,20 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 
 from workshop.stories.forms import SearchForm
+from workshop.stories.models import Author
+from workshop.stories.models import Story
 
 
 def index(request):
     return render_to_response('index.html')
 
 def stories(request):
-    return render_to_response('stories.html')
+    story_list = Story.objects.all()
+    return render_to_response('stories.html', {'stories': story_list})
 
 def authors(request):
-    return render_to_response('authors.html')
+    author_list = Author.objects.all()
+    return render_to_response('authors.html', {'authors': author_list})
 
 def about(request):
     return render_to_response('about.html')

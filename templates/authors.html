@@ -1,13 +1,23 @@
 {% extends "base.html" %}
 
-{% block title %}View the authors{% endblock %}
+{% block title %}View some authors{% endblock %}
 
 {% block heading %}Authors, man{% endblock %}
 
 {% block content %}
 
-<ul>
-    <li>This is an author!</li>
-</ul>
+<p>
+So many authors. You should probably check 'em all out, okay?
+</p>
+
+{% if authors %}
+    <ul>
+        {% for author in authors %}
+        <li>{{ author }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Whoa, there aren't any authors here?</p>
+{% endif %}
 
 {% endblock %}

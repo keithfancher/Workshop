@@ -6,8 +6,18 @@
 
 {% block content %}
 
-<ul>
-    <li>This is a story!</li>
-</ul>
+<p>
+Here are all the stories that exist RIGHT NOW. Shit.
+</p>
+
+{% if stories %}
+    <ul>
+        {% for story in stories %}
+        <li>{{ story }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Whoa, there aren't any stories here?</p>
+{% endif %}
 
 {% endblock %}
