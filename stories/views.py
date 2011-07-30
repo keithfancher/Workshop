@@ -13,6 +13,9 @@ def stories(request):
 def authors(request):
     return render_to_response('authors.html')
 
+def about(request):
+    return render_to_response('about.html')
+
 def search(request):
     if 'search_string' in request.GET:
         query = request.GET['search_string']

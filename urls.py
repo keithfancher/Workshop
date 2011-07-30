@@ -18,7 +18,8 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
 
     (r'^$', views.index),
-    (r'^stories/$', views.stories),
+    (r'^about/$', views.about),
     (r'^authors/$', views.authors),
     (r'^search/$', views.search),
+    (r'^stories/$', views.stories),
 )
