@@ -13,7 +13,7 @@ Here are all the stories that exist RIGHT NOW. Shit.
 {% if stories %}
     <ul>
         {% for story in stories %}
-        <li>{{ story }}</li>
+        <li><a href="/story/{{ story.id }}/">{{ story.title }}</a></li>
         {% endfor %}
     </ul>
 {% else %}

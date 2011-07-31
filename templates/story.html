@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{ story.title }}{% endblock %}
+
+{% block heading %}{{ story.title }}{% endblock %}
+
+{% block content %}
+
+<h2 class="author_name">by {{ story.author }}</h2>
+
+<div class="story_text">
+    {{ story.text }}
+</div>
+
+{% endblock %}
