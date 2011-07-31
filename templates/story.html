@@ -9,7 +9,8 @@
 <h2 class="author_name">by {{ story.author }}</h2>
 
 <div class="story_text">
-    {{ story.text }}
+    {# TODO: Have to make sure this is sanitized BEFORE it's output here #}
+    {{ story.web_output|safe }}
 </div>
 
 {% endblock %}

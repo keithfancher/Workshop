@@ -11,9 +11,12 @@ Here are all the stories that exist RIGHT NOW. Shit.
 </p>
 
 {% if stories %}
-    <ul>
+    <ul class="story_list">
         {% for story in stories %}
-        <li><a href="/story/{{ story.id }}/">{{ story.title }}</a></li>
+        <li>
+            <a href="/story/{{ story.id }}/">{{ story.title }}</a> <br />
+            by {{ story.author }}
+        </li>
         {% endfor %}
     </ul>
 {% else %}

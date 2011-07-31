@@ -19,6 +19,13 @@ class Story(models.Model):
     def __unicode__(self):
         return self.title
 
+    # VERY basic formatting
+    # TODO: sanitize! and make better
+    def web_output(self):
+        # make different first par later
+        web_out = '<p class="story_par">' + self.text
+        return web_out.replace("\n", '</p><p class="story_par">') + '</p>'
+
 
 # are comments handled elsewhere in Django?
 # class Comment(models.Model):
