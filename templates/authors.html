@@ -13,7 +13,7 @@ So many authors. You should probably check 'em all out, okay?
 {% if authors %}
     <ul>
         {% for author in authors %}
-        <li>{{ author }}</li>
+        <li><a href="/author/{{ author.id }}/">{{ author }}</a></li>
         {% endfor %}
     </ul>
 {% else %}

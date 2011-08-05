@@ -5,9 +5,13 @@ class Author(models.Model):
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=40)
     user_name = models.CharField(max_length=30, blank=True) # ???
+#    profile = models.TextField() # TODO: breaking everything, figure out adding columns later
 
     def __unicode__(self):
         return u'%s %s' % (self.first_name, self.last_name)
+
+    class Meta:
+        ordering = ['last_name']
 
 
 class Story(models.Model):
@@ -25,6 +29,9 @@ class Story(models.Model):
         # make different first par later
         web_out = '<p class="story_par">' + self.text
         return web_out.replace("\n", '</p><p class="story_par">') + '</p>'
+
+    class Meta:
+        ordering = ['title']
 
 
 # are comments handled elsewhere in Django?

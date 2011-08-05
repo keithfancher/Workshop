@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}{{ author }}'s Stories{% endblock %}
+
+{% block heading %}{{ author }}'s Stories{% endblock %}
+
+{% block content %}
+
+{% if stories %}
+    <ul>
+        {% for story in stories %}
+        <li><a href="/story/{{ story.id }}/">{{ story.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>This deadbeat doesn't seem to have written anything yet!</p>
+{% endif%}
+
+{% endblock %}

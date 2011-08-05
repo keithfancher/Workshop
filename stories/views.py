@@ -22,6 +22,12 @@ def authors(request):
     author_list = Author.objects.all()
     return render_to_response('authors.html', {'authors': author_list})
 
+def author(request, author_id):
+    author = Author.objects.get(id=author_id)
+    stories = author.story_set.all()
+    # TODO: error checking
+    return render_to_response('author.html', {'author': author, 'stories': stories})
+
 def about(request):
     return render_to_response('about.html')
 
