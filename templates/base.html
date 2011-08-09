@@ -67,7 +67,13 @@
         <li><a href="/authors/">Authors</a></li>
         <li><a href="/search/">Search</a></li>
         <li><a href="/about/">About</a></li>
-        <li>Log in</li>
+        <li> | </li>
+        {% if user.is_authenticated %}
+            <li>Profile</li>
+            <li><a href="/accounts/logout/">Log out</a></li>
+        {% else %}
+            <li><a href="/accounts/login/">Log in</a></li>
+        {% endif %}
     </ul>
 
     <div id="main_content">
