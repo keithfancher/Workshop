@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.views.generic.simple import direct_to_template
 
 from workshop.stories import views
 
@@ -18,7 +19,7 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
 
     (r'^$', views.index),
-    (r'^about/$', views.about),
+    (r'^about/$', direct_to_template, {'template': 'about.html'}),
     (r'^authors/$', views.authors),
     (r'^author/(\d+)/$', views.author),
     (r'^search/$', views.search),
