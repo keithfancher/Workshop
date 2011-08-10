@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     (r'^accounts/login/$', login), # TODO: check if already logged in/out?
     (r'^accounts/logout/$', logout),
     (r'^accounts/register/$', views.register),
+    (r'^accounts/profile/$', direct_to_template, {'template': 'registration/profile.html'}),
 
     (r'^$', views.index),
     (r'^about/$', direct_to_template, {'template': 'about.html'}),
