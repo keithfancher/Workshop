@@ -1,5 +1,7 @@
 from django import forms
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -30,17 +32,26 @@ def story(request, story_id):
 
 # TODO: can replace this w/ generic view... do I want to?
 def authors(request):
-    author_list = Author.objects.all()
+    author_list = User.objects.all()
     return render_to_response('authors.html', 
         {'authors': author_list},
         context_instance=RequestContext(request))
 
 def author(request, author_id):
-    author = Author.objects.get(id=author_id)
+    author = User.objects.get(id=author_id)
     stories = author.story_set.all()
     # TODO: error checking
     return render_to_response('author.html', 
         {'author': author, 'stories': stories},
+        context_instance=RequestContext(request))
+
+@login_required    
+def profile(request):
+    author = request.user
+    stories = author.story_set.all()
+    # TODO: error checking
+    return render_to_response('registration/profile.html', 
+        {'stories': stories},
         context_instance=RequestContext(request))
 
 def search(request):

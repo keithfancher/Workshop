@@ -89,3 +89,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'workshop.stories',
 )
+
+# allows Author class to "extend" User -- treats it as a profile
+AUTH_PROFILE_MODULE = "stories.Author"

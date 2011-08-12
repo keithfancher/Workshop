@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<h2 class="author_name">by <a href="/author/{{ story.author.id }}/">{{ story.author }}</a></h2>
+<h2 class="author_name">by <a href="/author/{{ story.author.id }}/">{{ story.author.get_full_name }}</a></h2>
 
 <div class="story_text">
     {# TODO: Have to make sure this is sanitized BEFORE it's output here #}
