@@ -4,10 +4,19 @@ from django.db.models.signals import post_save
 
 
 class Author(models.Model):
-    # makes Author essentially a "user profile", extending User
+    # Makes Author essentially a "user profile", extending User.
     user = models.ForeignKey(User, unique=True)
     profile = models.TextField()
 
+    # Does this Author own a given Story?
+    def owns_story(self, story_id):
+        try:
+            self.user.story_set.get(id=story_id)
+        except Story.DoesNotExist:
+            return False
+        return True
+
+    # Output the user's full name
     def __unicode__(self):
         return self.user.get_full_name()
 

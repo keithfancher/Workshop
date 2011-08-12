@@ -32,4 +32,5 @@ urlpatterns = patterns('',
     (r'^search/$', views.search),
     (r'^stories/$', views.stories),
     (r'^story/(\d+)/$', views.story),
+    (r'^story/(\d+)/edit/$', views.edit_story),
 )

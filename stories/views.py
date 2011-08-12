@@ -16,7 +16,6 @@ def index(request):
     return render_to_response('index.html',
         context_instance=RequestContext(request))
 
-# TODO: can replace this w/ generic view... do I want to?
 def stories(request):
     story_list = Story.objects.all()
     return render_to_response('stories.html', 
@@ -24,13 +23,28 @@ def stories(request):
         context_instance=RequestContext(request))
 
 def story(request, story_id):
-    story = Story.objects.get(id=story_id)
-    # TODO: add some error checking here
+    # Check if story exists
+    try:
+        story = Story.objects.get(id=story_id)
+    except Story.DoesNotExist:
+        error_text = "That story doesn't exist!"
+        return render_to_response('error.html',
+            {'error_text': error_text},
+            context_instance=RequestContext(request))
+
+    # Check if it's our own story
+    own_story = request.user.get_profile().owns_story(story_id)
+
     return render_to_response('story.html',
+        {'story': story, 'own_story': own_story},
+        context_instance=RequestContext(request))
+
+def edit_story(request, story_id):
+    story = Story.objects.get(id=story_id)
+    return render_to_response('edit_story.html',
         {'story': story},
         context_instance=RequestContext(request))
 
-# TODO: can replace this w/ generic view... do I want to?
 def authors(request):
     author_list = User.objects.all()
     return render_to_response('authors.html', 
