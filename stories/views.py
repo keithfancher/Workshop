@@ -8,6 +8,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from workshop.stories.forms import SearchForm
+from workshop.stories.forms import StoryForm
 from workshop.stories.models import Author
 from workshop.stories.models import Story
 
@@ -39,11 +40,37 @@ def story(request, story_id):
         {'story': story, 'own_story': own_story},
         context_instance=RequestContext(request))
 
+@login_required    
 def edit_story(request, story_id):
-    story = Story.objects.get(id=story_id)
-    return render_to_response('edit_story.html',
-        {'story': story},
-        context_instance=RequestContext(request))
+    # Check if story exists
+    try:
+        story = Story.objects.get(id=story_id)
+    except:
+        error_text = "That story doesn't exist!"
+        return render_to_response('error.html',
+            {'error_text': error_text},
+            context_instance=RequestContext(request))
+
+    # Check if user owns the story
+    if not request.user.get_profile().owns_story(story_id):
+        error_text = "That ain't yours to edit, okay?"
+        return render_to_response('error.html',
+            {'error_text': error_text},
+            context_instance=RequestContext(request))
+
+    # It's a POST request, save the story
+    if request.method == 'POST':
+        form = StoryForm(request.POST, instance=story)
+        if form.is_valid(): # do I need to check this?
+            form.save()
+            return HttpResponseRedirect('/story/' + story_id + '/')
+
+    # It's a GET request, just display the form
+    else:
+        form = StoryForm(instance=story)
+        return render_to_response('edit_story.html',
+            {'story': story,'form': form},
+            context_instance=RequestContext(request))
 
 def authors(request):
     author_list = User.objects.all()

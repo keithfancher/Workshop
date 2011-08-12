@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Edit story{% endblock %}
+
+{% block heading %}Edit this story?{% endblock %}
+
+{% block content %}
+
+<p>
+This doesn't actually work yet, by the way. So don't expect too much.
+</p>
+
+{% if form.errors %}
+    <p class="form_error">
+    Please correct the error{{ form.errors|pluralize }} below.
+    </p>
+{% endif %}    
+
+<form action="" method="post">
+    <table>
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}
