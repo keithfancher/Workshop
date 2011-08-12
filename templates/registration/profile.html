@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.username }}'s Profile{% endblock %}
+
+{% block heading %}This is your fucking profile, {{ user.username }}{% endblock %}
+
+{% block content %}
+
+<h2>About you</h2>
+
+<p>
+{{ user.get_full_name }}
+</p>
+
+<p>
+{{ user.get_profile.profile }}
+</p>
+
+<h2>Your stories</h2>
+
+{% if stories %}
+    <ul>
+        {% for story in stories %}
+        <li><a href="/story/{{ story.id }}/">{{ story.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You haven't written anything yet! Shit, man! Hurry up!</p>
+{% endif%}
+
+{% endblock %}

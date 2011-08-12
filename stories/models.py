@@ -1,22 +1,23 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 
 
 class Author(models.Model):
-    first_name = models.CharField(max_length=40)
-    last_name = models.CharField(max_length=40)
-    user_name = models.CharField(max_length=30, blank=True) # ???
-#    profile = models.TextField() # TODO: breaking everything, figure out adding columns later
+    # makes Author essentially a "user profile", extending User
+    user = models.ForeignKey(User, unique=True)
+    profile = models.TextField()
 
     def __unicode__(self):
-        return u'%s %s' % (self.first_name, self.last_name)
+        return self.user.get_full_name()
 
-    class Meta:
-        ordering = ['last_name']
+#    class Meta:
+#        ordering = ['last_name']
 
 
 class Story(models.Model):
     title = models.CharField(max_length=100)
-    author = models.ForeignKey(Author, blank=True)
+    author = models.ForeignKey(User, blank=True) # changed from Author to User
     pub_date = models.DateField()
     text = models.TextField() # no max?
 
@@ -34,5 +35,9 @@ class Story(models.Model):
         ordering = ['title']
 
 
-# are comments handled elsewhere in Django?
-# class Comment(models.Model):
+# creates an Author object for every User created
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        profile, created = Author.objects.get_or_create(user=instance)
+
+post_save.connect(create_user_profile, sender=User)        

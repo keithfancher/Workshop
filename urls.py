@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.contrib.auth.views import login, logout
 from django.views.generic.simple import direct_to_template
 
 from workshop.stories import views
@@ -17,6 +18,12 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
+
+    # TODO: login redirects to nonexistent page
+    (r'^accounts/login/$', login), # TODO: check if already logged in/out?
+    (r'^accounts/logout/$', logout),
+    (r'^accounts/register/$', views.register),
+    (r'^accounts/profile/$', views.profile),
 
     (r'^$', views.index),
     (r'^about/$', direct_to_template, {'template': 'about.html'}),

@@ -4,7 +4,13 @@
     <title>Workshop | {% block title %}{% endblock %}</title>
     <style type="text/css">
         body {
-            font-family: verdana, sans-serif;
+/*            font-family: verdana, sans-serif; */
+            font-family: 'Palatino', 'Palatino Linotype', 'Georgia', serif;
+            font-size: 17px;
+        }
+
+        li {
+            margin-top: 15px;
         }
 
         #navbar {
@@ -14,10 +20,12 @@
         }
 
         #navbar li {
+            font-size: 16px;
             list-style-type: none;
             display: inline-block;
             padding-left: 3px;
             padding-right: 3px;
+            margin: 0;
         }
 
         #main_content {
@@ -28,25 +36,27 @@
         }
 
         #footer {
-            font-size: 9px;
+            font-size: 10px;
             width: 250px;
             margin-left: auto;
             margin-right: auto;
-            margin-top: 70px;
+            margin-top: 60px;
             text-align: center;
+            color: gray;
         }
 
         .page_title {
-            margin-bottom: 30px;
-            margin-left: -50px; /* cheater! */
+            margin-bottom: 20px;
+            margin-left: -60px; /* cheater! */
         }
 
         .author_name {
+            font-style: italic;
         }
 
         .story_text {
-            font-size: 15px;
-            font-family: monospace;
+            font-size: 16px;
+/*            font-family: monospace; */
             line-height: 1.4em;
         }
 
@@ -56,7 +66,7 @@
 
         .story_list li {
             margin-top: 15px;
-            font-size: 14px;
+/*            font-size: 14px; */
         }
     </style>
 </head>
@@ -67,7 +77,13 @@
         <li><a href="/authors/">Authors</a></li>
         <li><a href="/search/">Search</a></li>
         <li><a href="/about/">About</a></li>
-        <li>Log in</li>
+        <li> | </li>
+        {% if user.is_authenticated %}
+            <li><a href="/accounts/profile/">Profile</a></li>
+            <li><a href="/accounts/logout/">Log out</a></li>
+        {% else %}
+            <li><a href="/accounts/login/">Log in</a></li>
+        {% endif %}
     </ul>
 
     <div id="main_content">
