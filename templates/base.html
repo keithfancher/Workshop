@@ -9,14 +9,29 @@
             font-size: 17px;
         }
 
+        h1 {
+        }
+
+        h2, h3 {
+            font-weight: 400;
+        }
+
         li {
             margin-top: 15px;
+        }
+
+        #main_header {
+            float: left;
+            font-size: 40px;
+            border: 2px solid black;
+            padding: 5px;
         }
 
         #navbar {
             float: right;
             margin: 0;
             padding: 0;
+            margin-top: 15px;
         }
 
         #navbar li {
@@ -28,11 +43,17 @@
             margin: 0;
         }
 
+        #outer_container {
+            width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         #main_content {
             width: 550px;
             margin-left: auto;
             margin-right: auto;
-            padding-top: 30px;
+            padding-top: 80px;
         }
 
         #footer {
@@ -52,6 +73,7 @@
 
         .author_name {
             font-style: italic;
+            font-size: 23px;
         }
 
         .story_text {
@@ -76,6 +98,13 @@
     </style>
 </head>
 <body>
+
+<div id="outer_container">
+
+    <div id="main_header">
+        Workshop: Alpha
+    </div>
+
     <ul id="navbar">
         <li><a href="/">Home</a></li>
         <li><a href="/stories/">Stories</a></li>
@@ -104,6 +133,8 @@
         <hr>
         Copyright &copy; 2011 Your Mom, LLC.
     </div>
+
+</div> <!-- outer container -->
     {% endblock %}
 </body>
 </html>
