@@ -34,7 +34,11 @@ def story(request, story_id):
             context_instance=RequestContext(request))
 
     # Check if it's our own story
-    own_story = request.user.get_profile().owns_story(story_id)
+    # get_profile() fails if it's Anon user, so check that too...
+    if request.user.is_authenticated():
+        own_story = request.user.get_profile().owns_story(story_id)
+    else:
+        own_story = False
 
     return render_to_response('story.html',
         {'story': story, 'own_story': own_story},
