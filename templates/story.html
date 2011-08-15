@@ -8,11 +8,11 @@
 
 <h2 class="author_name">by <a href="/author/{{ story.author.id }}/">{{ story.author.get_full_name }}</a></h2>
 
-<p class="edit_story">
 {% if own_story %}
+<p class="edit_story">
 (<a href="/story/{{ story.id }}/edit/">edit this story</a>)
-{% endif %}
 </p>
+{% endif %}
 
 <div class="story_text">
     {# TODO: Have to make sure this is sanitized BEFORE it's output here #}
