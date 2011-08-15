@@ -28,7 +28,7 @@ class Story(models.Model):
     title = models.CharField(max_length=100)
     author = models.ForeignKey(User, blank=True) # changed from Author to User
     pub_date = models.DateField()
-    text = models.TextField() # no max?
+    text = models.TextField() # no max size?
 
     def __unicode__(self):
         return self.title

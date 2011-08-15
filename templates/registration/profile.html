@@ -22,6 +22,10 @@
 
 <h2>Your stories</h2>
 
+<p class="add_story">
+(<a href="/story/new/">add story</a>)
+</p>
+
 {% if stories %}
     <ul>
         {% for story in stories %}
@@ -29,7 +33,7 @@
         {% endfor %}
     </ul>
 {% else %}
-    <p>You haven't written anything yet! Shit, man! Hurry up!</p>
+    <p>You haven't written anything yet! Shit, man! Hurry up! Add a story!</p>
 {% endif%}
 
 {% endblock %}

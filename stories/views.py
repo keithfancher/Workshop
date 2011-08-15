@@ -1,3 +1,5 @@
+from datetime import date
+
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
@@ -14,16 +16,25 @@ from workshop.stories.models import Author
 from workshop.stories.models import Story
 
 
+#
+# View the index page
+#
 def index(request):
     return render_to_response('index.html',
         context_instance=RequestContext(request))
 
+#
+# View the list of stories
+#
 def stories(request):
     story_list = Story.objects.all()
     return render_to_response('stories.html', 
         {'stories': story_list},
         context_instance=RequestContext(request))
 
+#   
+# View a given story
+#
 def story(request, story_id):
     # Check if story exists
     try:
@@ -45,6 +56,32 @@ def story(request, story_id):
         {'story': story, 'own_story': own_story},
         context_instance=RequestContext(request))
 
+#    
+# Create a new story    
+#
+@login_required    
+def new_story(request):
+    # If a POST request, create new story
+    if request.method == 'POST':
+        form = StoryForm(request.POST)
+        if form.is_valid():
+            # Need to set author as current user
+            new_story = form.save(commit=False)
+            new_story.author = request.user # TODO: should this be user.id?
+            new_story.pub_date = date.today()
+            new_story.save() # have to explicitly save here
+            return HttpResponseRedirect('/story/' + str(new_story.id) + '/')
+
+    # If a GET request, display the form
+    else:
+        form = StoryForm()
+        return render_to_response('new_story.html',
+            {'form': form},
+            context_instance=RequestContext(request))
+
+#    
+# Edit an existing story
+#
 @login_required    
 def edit_story(request, story_id):
     # Check if story exists
@@ -77,12 +114,18 @@ def edit_story(request, story_id):
             {'story': story,'form': form},
             context_instance=RequestContext(request))
 
+#
+# View the list of authors (users)
+#
 def authors(request):
     author_list = User.objects.all()
     return render_to_response('authors.html', 
         {'authors': author_list},
         context_instance=RequestContext(request))
 
+#
+# View a given author's profile page
+#
 def author(request, author_id):
     author = User.objects.get(id=author_id)
     stories = author.story_set.all()
@@ -91,6 +134,9 @@ def author(request, author_id):
         {'author': author, 'stories': stories},
         context_instance=RequestContext(request))
 
+#
+# Lets a logged in user view their profile
+#
 @login_required    
 def profile(request):
     author = request.user
@@ -100,6 +146,9 @@ def profile(request):
         {'stories': stories},
         context_instance=RequestContext(request))
 
+#
+# Edit your profile
+#
 @login_required    
 def edit_profile(request):
     # POST request, save the profile
@@ -116,6 +165,9 @@ def edit_profile(request):
             {'form': form},
             context_instance=RequestContext(request))            
 
+#
+# Search authors and stories. TODO: Doesn't exist yet!
+#
 def search(request):
     if 'search_string' in request.GET:
         query = request.GET['search_string']
@@ -131,8 +183,11 @@ def search(request):
         {'form': form},
         context_instance=RequestContext(request))        
 
-# TODO: don't let this happen if already logged in?
+#
+# View the registration page
+#
 def register(request):
+    # TODO: don't let this happen if already logged in?
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
