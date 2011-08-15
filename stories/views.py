@@ -9,6 +9,7 @@ from django.template import RequestContext
 
 from workshop.stories.forms import SearchForm
 from workshop.stories.forms import StoryForm
+from workshop.stories.forms import AuthorForm
 from workshop.stories.models import Author
 from workshop.stories.models import Story
 
@@ -98,6 +99,22 @@ def profile(request):
     return render_to_response('registration/profile.html', 
         {'stories': stories},
         context_instance=RequestContext(request))
+
+@login_required    
+def edit_profile(request):
+    # POST request, save the profile
+    if request.method == 'POST':
+        form = AuthorForm(request.POST, instance=request.user.get_profile())
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/accounts/profile/')
+
+    # GET request, display the form
+    else:
+        form = AuthorForm(instance=request.user.get_profile())
+        return render_to_response('registration/edit_profile.html',
+            {'form': form},
+            context_instance=RequestContext(request))            
 
 def search(request):
     if 'search_string' in request.GET:

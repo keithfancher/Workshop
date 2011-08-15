@@ -5,6 +5,7 @@ BASIC SHIT:
 * sanitize user input
 * lots of fucking tests
 * add comments to stories
+* search functionality
 
 MORE SHIT:
 ==========
@@ -13,3 +14,4 @@ MORE SHIT:
 * a "follow" system
 * a "like" system?
 * invite-only or private stories
+* less ugly

@@ -24,6 +24,7 @@ urlpatterns = patterns('',
     (r'^accounts/logout/$', logout),
     (r'^accounts/register/$', views.register),
     (r'^accounts/profile/$', views.profile),
+    (r'^accounts/profile/edit/$', views.edit_profile),
 
     (r'^$', views.index),
     (r'^about/$', direct_to_template, {'template': 'about.html'}),

@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from workshop.stories.models import Story
+from workshop.stories.models import Story, Author
 
 
 class SearchForm(forms.Form):
@@ -17,3 +17,10 @@ class StoryForm(ModelForm):
     class Meta:
         model = Story
         fields = ('title', 'text')
+
+
+class AuthorForm(ModelForm):
+    
+    class Meta:
+        model = Author
+        fields = ('profile',)
