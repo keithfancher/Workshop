@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load comments %}
+
 {% block title %}{{ story.title }}{% endblock %}
 
 {% block heading %}{{ story.title }}{% endblock %}
@@ -17,6 +19,37 @@
 <div class="story_text">
     {# TODO: Have to make sure this is sanitized BEFORE it's output here #}
     {{ story.web_output|safe }}
+</div>
+
+<hr class="comment_break">
+
+<a name="comments_section"><h2 class="comment_title">Feedback</h2></a>
+
+<div class="comment_list">
+    {% get_comment_list for story as comment_list %}
+    {% for comment in comment_list %}
+    <div class="comment">
+        <p>
+        <a href="/author/{{ comment.user.id }}/">{{ comment.user }}</a> says:
+        </p>
+
+        <p>
+        {{ comment.comment }}
+        </p>
+        {{ comment.submit_date }}
+    </div>
+    {% endfor %}
+</div>
+
+<h2 class="comment_title">Post new feedback</h2>
+
+<!-- TODO: ONLY POST COMMENT IF LOGGED IN! -->
+<div class="comment_form">
+    {% if user.is_authenticated %}
+        {% render_comment_form for story %}
+    {% else %}
+        Please <a href="/accounts/login/?next=/story/{{ story.id }}/#comments_section">log in</a> to post comments.
+    {% endif %}
 </div>
 
 {% endblock %}
