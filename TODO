@@ -1,5 +1,6 @@
 BASIC SHIT:
 ===========
+* make registration actually work (required email)
 * add comments to stories
 * delete story
 * sanitize user input

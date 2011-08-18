@@ -27,6 +27,11 @@
 
 <div class="comment_list">
     {% get_comment_list for story as comment_list %}
+
+    {% if not comment_list %}
+    No feedback yet. Why not leave some?
+    {% endif %}
+
     {% for comment in comment_list %}
     <div class="comment">
         <p>
