@@ -1,5 +1,7 @@
 from django import forms
 from django.forms import ModelForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 from workshop.stories.models import Story, Author
 
@@ -24,3 +26,13 @@ class AuthorForm(ModelForm):
     class Meta:
         model = Author
         fields = ('profile',)
+
+
+class BetterUserCreationForm(UserCreationForm):
+    email = forms.EmailField(label="Email") # TODO: required?
+    first_name = forms.CharField(label="First name", required=False) # TODO: max_length etc?
+    last_name = forms.CharField(label="Last name", required=False) # TODO: max_length etc?
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'first_name', 'last_name')
