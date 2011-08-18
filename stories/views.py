@@ -2,7 +2,6 @@ from datetime import date
 
 from django import forms
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -12,6 +11,7 @@ from django.template import RequestContext
 from workshop.stories.forms import SearchForm
 from workshop.stories.forms import StoryForm
 from workshop.stories.forms import AuthorForm
+from workshop.stories.forms import BetterUserCreationForm
 from workshop.stories.models import Author
 from workshop.stories.models import Story
 
@@ -189,12 +189,12 @@ def search(request):
 def register(request):
     # TODO: don't let this happen if already logged in?
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = BetterUserCreationForm(request.POST)
         if form.is_valid():
             new_user = form.save()
             return HttpResponseRedirect("index.html") # TODO: redirect to where?
     else:
-        form = UserCreationForm()
+        form = BetterUserCreationForm()
     return render_to_response("registration/register.html",
         {'form': form},
         context_instance=RequestContext(request))
