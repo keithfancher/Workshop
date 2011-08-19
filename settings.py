@@ -97,3 +97,7 @@ AUTH_PROFILE_MODULE = "stories.Author"
 
 # allows custom comments app that doesn't suck
 COMMENTS_APP = 'workshop.comments'
+
+# Allows motherfucking profanities in comments. I don't think this is necessary
+# with newer versions of Django?
+COMMENTS_ALLOW_PROFANITIES = True;

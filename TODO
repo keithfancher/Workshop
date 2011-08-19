@@ -1,10 +1,8 @@
 BASIC SHIT:
 ===========
-* SERIOUSLY? CENSORSHIP?! Hopefully this is just in comments. need to kill.
-* add comments to stories
-    + posting comment redirects to stupid page
-        - should be able to redirect based on story that owns comment?
-        - or provide a link on the posted.html template?
+* posting comment redirects to stupid page
+    + should be able to redirect based on story that owns comment?
+    + or provide a link on the posted.html template?
 * sanitize user input
     + can use |linebreaks filter and sanitize HTML completely?
     + for stories, profiles should already be this way
