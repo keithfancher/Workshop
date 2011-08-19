@@ -1,5 +1,3 @@
-{# Copied from default from, want to hide most form elements. #}
-
 {% load comments i18n %}
 <form action="{% comment_form_target %}" method="post">
   {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
@@ -10,19 +8,14 @@
       {% if field.errors %}{{ field.errors }}{% endif %}
       <p
         {% if field.errors %} class="error"{% endif %}
-        {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}
-
-        {# Hide name, email, and URL. Kind of a hacky way to go about it, but it works. #}
-        {% ifequal field.name "name" %} style="display:none;"{% endifequal %}
-        {# Email is actually required, fill it in with real email info #}
-        {% ifequal field.name "email" %} style="display:none;" value="{{ user.email }}"{% endifequal %}
-        {% ifequal field.name "url" %} style="display:none;"{% endifequal %}>
+        {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
+        {# Only customization so far: remove the label #}
         {{ field }}
       </p>
     {% endif %}
   {% endfor %}
   <p class="submit">
     <input type="submit" name="post" class="submit-post" value="{% trans "Post" %}" />
-    {# Don't want a preview button #}
+    <input type="submit" name="preview" class="submit-preview" value="{% trans "Preview" %}" />
   </p>
 </form>

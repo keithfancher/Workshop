@@ -34,14 +34,17 @@
 
     {% for comment in comment_list %}
     <div class="comment">
-        <p>
-        <a href="/author/{{ comment.user.id }}/">{{ comment.user }}</a> says:
+        <p class="comment_author">
+        <a href="/author/{{ comment.user.id }}/">{{ comment.user }}</a> said:
         </p>
 
-        <p>
-        {{ comment.comment }}
+        <p class="comment_text">
+        {{ comment.comment|linebreaks }}
         </p>
-        {{ comment.submit_date }}
+
+        <p class="comment_time">
+        {{ comment.submit_date|timesince }} ago
+        </p>
     </div>
     {% endfor %}
 </div>
