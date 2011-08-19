@@ -1,5 +1,6 @@
 BASIC SHIT:
 ===========
+* user can edit their first/last name on profile page
 * sanitize user input
     + can use |linebreaks filter and sanitize HTML completely?
     + for stories, profiles should already be this way
@@ -9,13 +10,17 @@ BASIC SHIT:
 * author's note for a story -- put it in context, etc.
 * list stories user has commented on in their profile (and author page?)
 
+
 MORE SHIT:
 ==========
-* use django message system
+* use django message system?
 * fancy JS form validation
-* less ugly
+* less ugly (find some boilerplate CSS, maybe?)
 
 * pseudonyms
+    + name display will flow pseudonym -> real name -> user name
+    + if one doesn't exist fallback on the next
+* "random story" functionality
 * some kind of categorization
 * a "follow" system
 * a "like" system?

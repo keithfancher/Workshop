@@ -10,7 +10,7 @@
 
 <p>
 {% if author.get_profile.profile %}
-    {{ author.get_profile.profile }}
+    {{ author.get_profile.profile|linebreaks }}
 {% else %}
     We don't know anything about this person 'cause they haven't filled out
     their profile yet.
