@@ -84,11 +84,16 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.comments',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'workshop.stories',
+    'workshop.comments',
 )
 
 # allows Author class to "extend" User -- treats it as a profile
 AUTH_PROFILE_MODULE = "stories.Author"
+
+# allows custom comments app that doesn't suck
+COMMENTS_APP = 'workshop.comments'

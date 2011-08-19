@@ -9,7 +9,12 @@
 <h2>About {{ author.first_name }}</h2>
 
 <p>
-{{ author.get_profile.profile }}
+{% if author.get_profile.profile %}
+    {{ author.get_profile.profile }}
+{% else %}
+    We don't know anything about this person 'cause they haven't filled out
+    their profile yet.
+{% endif %}
 </p>
 
 <h2>{{ author.first_name }}'s Stories</h2>
