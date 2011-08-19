@@ -6,5 +6,13 @@
 {% block heading %}{% trans "Hey, thanks for the feedback" %}{% endblock %}
 
 {% block content %}
-The author really appreciates it. Now go write some stuff!
+<p>
+The author really appreciates it. Now go <a href="/story/new/">write some
+    stuff</a> of your own!
+</p>
+
+<p>
+Or <a href="/story/{{ comment.object_pk }}/">go back</a> to the story you just
+commented on, if you feel like it. Whatever floats your boat.
+</p>
 {% endblock %}

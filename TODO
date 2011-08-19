@@ -1,22 +1,24 @@
 BASIC SHIT:
 ===========
-* posting comment redirects to stupid page
-    + should be able to redirect based on story that owns comment?
-    + or provide a link on the posted.html template?
 * sanitize user input
     + can use |linebreaks filter and sanitize HTML completely?
     + for stories, profiles should already be this way
 * delete story
 * lots of fucking tests
 * search functionality
+* author's note for a story -- put it in context, etc.
+* list stories user has commented on in their profile (and author page?)
 
 MORE SHIT:
 ==========
+* use django message system
+* fancy JS form validation
+* less ugly
+
 * pseudonyms
 * some kind of categorization
 * a "follow" system
 * a "like" system?
 * invite-only or private stories
-* less ugly
 * different revisions of one story?
     + for now can just use titles? makes for messy story list...
