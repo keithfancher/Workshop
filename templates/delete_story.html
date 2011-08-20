@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Your Story.{% endblock %}
+
+{% block heading %}Delete Your Story.{% endblock %}
+
+{% block content %}
+
+<p>
+<strong>Are you sure?</strong>
+</p>
+
+<p>
+This will delete your story as well as any feedback that has been left for you.
+It can't be undone!
+</p>
+
+<p>
+If you're totally 100% absolutely sure, click the button below.
+</p>
+
+<form action="" method="post" class="delete_story">
+    <input type="hidden" name="confirm" value="true" />
+    <input type="submit" value="Delete Story" />
+</form>
+
+{% endblock %}

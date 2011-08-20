@@ -3,6 +3,7 @@ from datetime import date
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.comments.models import Comment
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -41,9 +42,7 @@ def story(request, story_id):
         story = Story.objects.get(id=story_id)
     except Story.DoesNotExist:
         error_text = "That story doesn't exist!"
-        return render_to_response('error.html',
-            {'error_text': error_text},
-            context_instance=RequestContext(request))
+        return error_response(error_text, request)
 
     # Check if it's our own story
     # get_profile() fails if it's Anon user, so check that too...
@@ -69,7 +68,7 @@ def new_story(request):
             new_story = form.save(commit=False)
             new_story.author = request.user # TODO: should this be user.id?
             new_story.pub_date = date.today()
-            new_story.add_line_breaks() # add line breaks
+            new_story.add_line_breaks() # add line breaks BEFORE saving
             new_story.save() # have to explicitly save here
             return HttpResponseRedirect('/story/' + str(new_story.id) + '/')
 
@@ -90,16 +89,12 @@ def edit_story(request, story_id):
         story = Story.objects.get(id=story_id)
     except:
         error_text = "That story doesn't exist!"
-        return render_to_response('error.html',
-            {'error_text': error_text},
-            context_instance=RequestContext(request))
+        return error_response(error_text, request)
 
     # Check if user owns the story
     if not request.user.get_profile().owns_story(story_id):
         error_text = "That ain't yours to edit, okay?"
-        return render_to_response('error.html',
-            {'error_text': error_text},
-            context_instance=RequestContext(request))
+        return error_response(error_text, request)
 
     # It's a POST request, save the story
     if request.method == 'POST':
@@ -113,6 +108,46 @@ def edit_story(request, story_id):
         form = StoryForm(instance=story)
         return render_to_response('edit_story.html',
             {'story': story,'form': form},
+            context_instance=RequestContext(request))
+
+#
+# Delete an existing story and attached comments
+#
+@login_required
+def delete_story(request, story_id):
+    # Make sure the story exists
+    try:
+        story = Story.objects.get(id=story_id)
+    except:
+        error_text = "That story doesn't exist!"
+        error_response(error_text, request)
+
+    # Check if user owns the story
+    if not request.user.get_profile().owns_story(story_id):
+        error_text = "That ain't yours to delete, okay?"
+        return error_response(error_text, request)
+
+    # If it's a POST request, delete the story and attached comments
+    if request.method == 'POST':
+        # Check a hidden value in the form, sort-of confirmation
+        # TODO: does this matter at all? Probably not. Probably delete this.
+        confirmation = request.POST.get('confirm', 'false')
+
+        # If it's true, delete the story and its comments
+        if confirmation == 'true':
+            Comment.objects.filter(object_pk=story.id).delete()
+            story.delete()
+            return render_to_response('deleted_story_message.html',
+                context_instance=RequestContext(request))
+
+        # If the hidden field not set correctly, just re-show the confirmation
+        else:
+            return render_to_response('delete_story.html',
+                context_instance=RequestContext(request))
+
+    # If it's a GET request, show the confirmation page
+    else:
+        return render_to_response('delete_story.html',
             context_instance=RequestContext(request))
 
 #
@@ -142,7 +177,6 @@ def author(request, author_id):
 def profile(request):
     author = request.user
     stories = author.story_set.all()
-    # TODO: error checking
     return render_to_response('registration/profile.html', 
         {'stories': stories},
         context_instance=RequestContext(request))
@@ -167,7 +201,7 @@ def edit_profile(request):
             context_instance=RequestContext(request))            
 
 #
-# Search authors and stories. TODO: Doesn't exist yet!
+# Search authors and stories.
 #
 def search(request):
     if 'search_string' in request.GET:
@@ -193,9 +227,17 @@ def register(request):
         form = BetterUserCreationForm(request.POST)
         if form.is_valid():
             new_user = form.save()
-            return HttpResponseRedirect("index.html") # TODO: redirect to where?
+            return HttpResponseRedirect("/") # TODO: redirect to where?
     else:
         form = BetterUserCreationForm()
     return render_to_response("registration/register.html",
         {'form': form},
+        context_instance=RequestContext(request))
+
+#
+# A lil helper function that makes erring cleaner
+#
+def error_response(error_text, request):
+    return render_to_response('error.html',
+        {'error_text': error_text},
         context_instance=RequestContext(request))

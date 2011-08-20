@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Deleted Story{% endblock %}
+
+{% block heading %}You Deleted Your Story!{% endblock %}
+
+{% block content %}
+
+<p>
+This is a perfect time to <a href="/story/new/">go write something else</a>.
+</p>
+
+<form action="" method="post" class="delete_story">
+    <input type="hidden" name="confirm" value="true" />
+    <input type="submit" value="Delete Story" />
+</form>
+
+{% endblock %}

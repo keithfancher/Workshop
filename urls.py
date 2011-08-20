@@ -34,6 +34,7 @@ urlpatterns = patterns('',
     (r'^stories/$', views.stories),
     (r'^story/(\d+)/$', views.story),
     (r'^story/(\d+)/edit/$', views.edit_story),
+    (r'^story/(\d+)/delete/$', views.delete_story),
     (r'^story/new/$', views.new_story),
 
     (r'^comments/', include('django.contrib.comments.urls')),

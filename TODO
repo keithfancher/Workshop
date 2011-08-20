@@ -1,8 +1,6 @@
 BASIC SHIT:
 ===========
-* deleting a story should delete its comments as well, probably
 * user can edit their first/last name on profile page
-* delete story
 * lots of fucking tests
 * search functionality
 * author's note for a story -- put it in context, etc.
