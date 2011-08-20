@@ -69,6 +69,7 @@ def new_story(request):
             new_story = form.save(commit=False)
             new_story.author = request.user # TODO: should this be user.id?
             new_story.pub_date = date.today()
+            new_story.add_line_breaks() # add line breaks
             new_story.save() # have to explicitly save here
             return HttpResponseRedirect('/story/' + str(new_story.id) + '/')
 

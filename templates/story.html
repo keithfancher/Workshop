@@ -17,8 +17,7 @@
 {% endif %}
 
 <div class="story_text">
-    {# TODO: Have to make sure this is sanitized BEFORE it's output here #}
-    {{ story.web_output|safe }}
+    {{ story.text|linebreaks }}
 </div>
 
 <hr class="comment_break">

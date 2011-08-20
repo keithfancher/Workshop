@@ -1,9 +1,7 @@
 BASIC SHIT:
 ===========
+* deleting a story should delete its comments as well, probably
 * user can edit their first/last name on profile page
-* sanitize user input
-    + can use |linebreaks filter and sanitize HTML completely?
-    + for stories, profiles should already be this way
 * delete story
 * lots of fucking tests
 * search functionality
@@ -13,10 +11,12 @@ BASIC SHIT:
 
 MORE SHIT:
 ==========
+* upgrade to django 1.3, make sure it still works...
 * use django message system?
 * fancy JS form validation
 * less ugly (find some boilerplate CSS, maybe?)
 
+* markdown in stories and comments and such?
 * pseudonyms
     + name display will flow pseudonym -> real name -> user name
     + if one doesn't exist fallback on the next
@@ -27,3 +27,10 @@ MORE SHIT:
 * invite-only or private stories
 * different revisions of one story?
     + for now can just use titles? makes for messy story list...
+* upload word docs directly and covert
+    + using antiword?
+    + convert to markdown, if I end up using markdown?
+    + docx is basically XML, should be able to read that
+    + or OOo Python scripting
+    + or allow PDFs rather than .doc files
+    + http://stackoverflow.com/questions/125222/extracting-text-from-ms-word-files-in-python
