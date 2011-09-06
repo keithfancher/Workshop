@@ -22,16 +22,18 @@ urlpatterns = patterns('',
 
     # TODO: login redirects to nonexistent page
     (r'^accounts/login/$', login), # TODO: check if already logged in/out?
-    (r'^accounts/logout/$', logout),
+    (r'^accounts/logout/$', logout), # redirect to home if already logged out?
     (r'^accounts/register/$', views.register),
     (r'^accounts/profile/$', views.profile),
     (r'^accounts/profile/edit/$', views.edit_profile),
 
     (r'^$', views.index),
     (r'^about/$', direct_to_template, {'template': 'about.html'}),
+    (r'^search/$', views.search),
+
     (r'^authors/$', views.authors),
     (r'^author/(\d+)/$', views.author),
-    (r'^search/$', views.search),
+
     (r'^stories/$', views.stories),
     (r'^story/(\d+)/$', views.story),
     (r'^story/(\d+)/edit/$', views.edit_story),
