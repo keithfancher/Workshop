@@ -29,7 +29,7 @@ def index(request):
 #
 def stories(request):
     story_list = Story.objects.all()
-    return render_to_response('stories.html', 
+    return render_to_response('stories/index.html', 
         {'stories': story_list},
         context_instance=RequestContext(request))
 
@@ -51,7 +51,7 @@ def story(request, story_id):
     else:
         own_story = False
 
-    return render_to_response('story.html',
+    return render_to_response('stories/show.html',
         {'story': story, 'own_story': own_story},
         context_instance=RequestContext(request))
 
@@ -75,7 +75,7 @@ def new_story(request):
     # If a GET request, display the form
     else:
         form = StoryForm()
-        return render_to_response('new_story.html',
+        return render_to_response('stories/new.html',
             {'form': form},
             context_instance=RequestContext(request))
 
@@ -106,7 +106,7 @@ def edit_story(request, story_id):
     # It's a GET request, just display the form
     else:
         form = StoryForm(instance=story)
-        return render_to_response('edit_story.html',
+        return render_to_response('stories/edit.html',
             {'story': story,'form': form},
             context_instance=RequestContext(request))
 
@@ -137,17 +137,17 @@ def delete_story(request, story_id):
         if confirmation == 'true':
             Comment.objects.filter(object_pk=story.id).delete()
             story.delete()
-            return render_to_response('deleted_story_message.html',
+            return render_to_response('stories/deleted_message.html',
                 context_instance=RequestContext(request))
 
         # If the hidden field not set correctly, just re-show the confirmation
         else:
-            return render_to_response('delete_story.html',
+            return render_to_response('stories/delete.html',
                 context_instance=RequestContext(request))
 
     # If it's a GET request, show the confirmation page
     else:
-        return render_to_response('delete_story.html',
+        return render_to_response('stories/delete.html',
             context_instance=RequestContext(request))
 
 #
@@ -155,7 +155,7 @@ def delete_story(request, story_id):
 #
 def authors(request):
     author_list = User.objects.all()
-    return render_to_response('authors.html', 
+    return render_to_response('authors/index.html', 
         {'authors': author_list},
         context_instance=RequestContext(request))
 
@@ -166,7 +166,7 @@ def author(request, author_id):
     author = User.objects.get(id=author_id)
     stories = author.story_set.all()
     # TODO: error checking
-    return render_to_response('author.html', 
+    return render_to_response('authors/show.html', 
         {'author': author, 'stories': stories},
         context_instance=RequestContext(request))
 
