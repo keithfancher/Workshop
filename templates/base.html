@@ -21,10 +21,10 @@
         <li><a href="/about/">About</a></li>
         <li> | </li>
         {% if user.is_authenticated %}
-            <li><a href="/accounts/profile/">Profile</a></li>
-            <li><a href="/accounts/logout/">Log out</a></li>
+            <li><a href="/profile/">Profile</a></li>
+            <li><a href="/logout/">Log out</a></li>
         {% else %}
-            <li><a href="/accounts/login/">Log in</a></li>
+            <li><a href="/login/">Log in</a></li>
         {% endif %}
     </ul>
 

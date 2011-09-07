@@ -70,7 +70,7 @@ def new_story(request):
             new_story.pub_date = date.today()
             new_story.add_line_breaks() # add line breaks BEFORE saving
             new_story.save() # have to explicitly save here
-            return HttpResponseRedirect('/story/' + str(new_story.id) + '/')
+            return HttpResponseRedirect('/stories/' + str(new_story.id) + '/')
 
     # If a GET request, display the form
     else:
@@ -101,7 +101,7 @@ def edit_story(request, story_id):
         form = StoryForm(request.POST, instance=story)
         if form.is_valid(): # do I need to check this?
             form.save()
-            return HttpResponseRedirect('/story/' + story_id + '/')
+            return HttpResponseRedirect('/stories/' + story_id + '/')
 
     # It's a GET request, just display the form
     else:
@@ -120,7 +120,7 @@ def delete_story(request, story_id):
         story = Story.objects.get(id=story_id)
     except:
         error_text = "That story doesn't exist!"
-        error_response(error_text, request)
+        return error_response(error_text, request)
 
     # Check if user owns the story
     if not request.user.get_profile().owns_story(story_id):
@@ -191,7 +191,7 @@ def edit_profile(request):
         form = AuthorForm(request.POST, instance=request.user.get_profile())
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/accounts/profile/')
+            return HttpResponseRedirect('/profile/')
 
     # GET request, display the form
     else:
@@ -227,7 +227,8 @@ def register(request):
         form = BetterUserCreationForm(request.POST)
         if form.is_valid():
             new_user = form.save()
-            return HttpResponseRedirect("/") # TODO: redirect to where?
+            # TODO: actually log new user in! and redirect to profile
+            return HttpResponseRedirect("/")
     else:
         form = BetterUserCreationForm()
     return render_to_response("registration/register.html",

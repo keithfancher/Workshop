@@ -30,12 +30,12 @@ class UrlTest(TestCase):
 
 
     def test_auth_urls(self):
-        urls_200 = ('/accounts/login/', 
-                    '/accounts/logout/', 
-                    '/accounts/register/',
+        urls_200 = ('/login/', 
+                    '/logout/', 
+                    '/register/',
                    )
-        urls_302 = ('/accounts/profile/',
-                    '/accounts/profile/edit/',
+        urls_302 = ('/profile/',
+                    '/profile/edit/',
                    )
 
         self.url_test_helper(urls_200, 200)
@@ -43,9 +43,9 @@ class UrlTest(TestCase):
 
     def test_stories_urls(self):
         urls_200 = ('/stories/',)
-        urls_302 = ('/story/new/',)
-        urls_404 = ('/story/asdfsdafsda/',
-                    '/story/23423432432/')
+        urls_302 = ('/stories/new/',)
+        urls_404 = ('/stories/asdfsdafsda/',
+                    '/stories/23423432432/')
 
         self.url_test_helper(urls_200, 200)
         self.url_test_helper(urls_302, 302)

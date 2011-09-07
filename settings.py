@@ -101,3 +101,6 @@ COMMENTS_APP = 'workshop.comments'
 # Allows motherfucking profanities in comments. I don't think this is necessary
 # with newer versions of Django?
 COMMENTS_ALLOW_PROFANITIES = True;
+
+# Keeps generic login view from redirecting to nonexistent page
+LOGIN_REDIRECT_URL = '/profile/'

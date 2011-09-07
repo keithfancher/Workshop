@@ -20,27 +20,26 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
 
-    # TODO: login redirects to nonexistent page
-    (r'^accounts/login/$', login), # TODO: check if already logged in/out?
-    (r'^accounts/logout/$', logout), # redirect to home if already logged out?
-    (r'^accounts/register/$', views.register),
-    (r'^accounts/profile/$', views.profile),
-    (r'^accounts/profile/edit/$', views.edit_profile),
+    (r'^comments/', include('django.contrib.comments.urls')),
+
+    (r'^login/$', login), # TODO: check if already logged in/out?
+    (r'^logout/$', logout),
+    (r'^register/$', views.register),
+    (r'^profile/$', views.profile),
+    (r'^profile/edit/$', views.edit_profile),
 
     (r'^$', views.index),
     (r'^about/$', direct_to_template, {'template': 'about.html'}),
     (r'^search/$', views.search),
 
     (r'^authors/$', views.authors),
-    (r'^author/(\d+)/$', views.author),
+    (r'^authors/(\d+)/$', views.author),
 
     (r'^stories/$', views.stories),
-    (r'^story/(\d+)/$', views.story),
-    (r'^story/(\d+)/edit/$', views.edit_story),
-    (r'^story/(\d+)/delete/$', views.delete_story),
-    (r'^story/new/$', views.new_story),
-
-    (r'^comments/', include('django.contrib.comments.urls')),
+    (r'^stories/(\d+)/$', views.story),
+    (r'^stories/new/$', views.new_story),
+    (r'^stories/(\d+)/edit/$', views.edit_story),
+    (r'^stories/(\d+)/delete/$', views.delete_story), #TODO: use DELETE http
 )
 
 # Serve static files, but only in dev environment

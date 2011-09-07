@@ -8,12 +8,12 @@
 
 {% block content %}
 
-<h2 class="author_name">by <a href="/author/{{ story.author.id }}/">{{ story.author.get_full_name }}</a></h2>
+<h2 class="author_name">by <a href="/authors/{{ story.author.id }}/">{{ story.author.get_full_name }}</a></h2>
 
 {% if own_story %}
 <p class="edit_story">
-(<a href="/story/{{ story.id }}/edit/">edit this story</a>)
-(<a href="/story/{{ story.id }}/delete/">delete this story</a>)
+(<a href="/stories/{{ story.id }}/edit/">edit this story</a>)
+(<a href="/stories/{{ story.id }}/delete/">delete this story</a>)
 </p>
 {% endif %}
 
@@ -35,7 +35,7 @@
     {% for comment in comment_list %}
     <div class="comment">
         <p class="comment_author">
-        <a href="/author/{{ comment.user.id }}/">{{ comment.user }}</a> said:
+        <a href="/authors/{{ comment.user.id }}/">{{ comment.user }}</a> said:
         </p>
 
         <p class="comment_text">
@@ -51,12 +51,11 @@
 
 <h2 class="comment_title">Post new feedback</h2>
 
-<!-- TODO: ONLY POST COMMENT IF LOGGED IN! -->
 <div class="comment_form">
     {% if user.is_authenticated %}
         {% render_comment_form for story %}
     {% else %}
-        Please <a href="/accounts/login/?next=/story/{{ story.id }}/#comments_section">log in</a> to post comments.
+        Please <a href="/login/?next=/story/{{ story.id }}/#comments_section">log in</a> to post comments.
     {% endif %}
 </div>
 

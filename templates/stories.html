@@ -14,7 +14,7 @@ Here are all the stories that exist RIGHT NOW. Shit.
     <ul class="story_list">
         {% for story in stories %}
         <li>
-            <a href="/story/{{ story.id }}/">{{ story.title }}</a> <br />
+            <a href="/stories/{{ story.id }}/">{{ story.title }}</a> <br />
             by {{ story.author.get_full_name }}
         </li>
         {% endfor %}
