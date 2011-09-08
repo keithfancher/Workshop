@@ -8,14 +8,14 @@ from workshop.stories.models import Story
 
 
 """
+TOTEST:
 - must be logged in to post comments
-
-- test the forms (signup, sign in, add/edit story, profile)
-- test the URLs?
-- test that URLs get correct views?
+- comments form
+- signup/signin forms
+- profile form
 
 doesn't exist yet:
-(- if logged in, login link should redirect to profile page ?)
+- if logged in, login link should redirect to profile page?
 """
 
 
@@ -113,6 +113,7 @@ class UrlTest(TestCase):
                   '/register/',
                   '/stories/',
                   '/authors/',
+                  '/stories/1/',
                  )
 
     # these require the user to be logged in
