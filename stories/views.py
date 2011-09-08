@@ -86,7 +86,7 @@ def edit_story(request, story_id):
     # Check if story exists
     try:
         story = Story.objects.get(id=story_id)
-    except:
+    except Story.DoesNotExist:
         raise Http404
 
     # Check if user owns the story
@@ -115,7 +115,7 @@ def delete_story(request, story_id):
     # Make sure the story exists
     try:
         story = Story.objects.get(id=story_id)
-    except:
+    except Story.DoesNotExist:
         raise Http404
 
     # Check if user owns the story
@@ -160,7 +160,7 @@ def authors(request):
 def author(request, author_id):
     try:
         author = User.objects.get(id=author_id)
-    except:
+    except User.DoesNotExist:
         raise Http404
 
     stories = author.story_set.all()
