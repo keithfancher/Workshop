@@ -1,6 +1,5 @@
 BASIC SHIT:
 ===========
-* unmatched stories/ authors/ urls should return 404
 * login w/ email address, only "name" is pseudonym, no real name
 
 * user can edit their first/last name on profile page

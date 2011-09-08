@@ -4,8 +4,7 @@ from django import forms
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
-from django.http import HttpResponse, HttpResponseRedirect,\
-                        HttpResponseNotFound, HttpResponseForbidden
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext, loader
 
@@ -15,6 +14,7 @@ from workshop.stories.forms import AuthorForm
 from workshop.stories.forms import BetterUserCreationForm
 from workshop.stories.models import Author
 from workshop.stories.models import Story
+from workshop.stories.helpers import error_403
 
 
 #
@@ -41,8 +41,7 @@ def story(request, story_id):
     try:
         story = Story.objects.get(id=story_id)
     except Story.DoesNotExist:
-        error_text = "That story doesn't exist!"
-        return error_response(error_text, request, 404)
+        raise Http404
 
     # Check if it's our own story
     # get_profile() fails if it's Anon user, so check that too...
@@ -88,13 +87,11 @@ def edit_story(request, story_id):
     try:
         story = Story.objects.get(id=story_id)
     except:
-        error_text = "That story doesn't exist!"
-        return error_response(error_text, request, 404)
+        raise Http404
 
     # Check if user owns the story
     if not request.user.get_profile().owns_story(story_id):
-        error_text = "That ain't yours to edit, okay?"
-        return error_response(error_text, request, 403)
+        return error_403(request)
 
     # It's a POST request, save the story
     if request.method == 'POST':
@@ -119,13 +116,11 @@ def delete_story(request, story_id):
     try:
         story = Story.objects.get(id=story_id)
     except:
-        error_text = "That story doesn't exist!"
-        return error_response(error_text, request, 404)
+        raise Http404
 
     # Check if user owns the story
     if not request.user.get_profile().owns_story(story_id):
-        error_text = "That ain't yours to delete, okay?"
-        return error_response(error_text, request, 403)
+        return error_403(request)
 
     # If it's a POST request, delete the story and attached comments
     if request.method == 'POST':
@@ -163,9 +158,12 @@ def authors(request):
 # View a given author's profile page
 #
 def author(request, author_id):
-    author = User.objects.get(id=author_id)
+    try:
+        author = User.objects.get(id=author_id)
+    except:
+        raise Http404
+
     stories = author.story_set.all()
-    # TODO: error checking
     return render_to_response('authors/show.html', 
         {'author': author, 'stories': stories},
         context_instance=RequestContext(request))
@@ -234,16 +232,3 @@ def register(request):
     return render_to_response("registration/register.html",
         {'form': form},
         context_instance=RequestContext(request))
-
-#
-# A lil helper function that makes erring cleaner
-#
-def error_response(error_text, request, response_code=200):
-    t = loader.get_template('error.html')
-    c = RequestContext(request, {'error_text': error_text})
-    if response_code == 403:
-        return HttpResponseForbidden(t.render(c))
-    elif response_code == 404:
-        return HttpResponseNotFound(t.render(c))
-    else:
-        return HttpResponse(t.render(c))

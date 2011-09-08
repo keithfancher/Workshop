@@ -54,12 +54,11 @@ class UrlTest(TestCase):
                  '/stories/new/',
                 )
 
-    # TODO: these don't actually 404 yet...
     should_404 = ('/stories/23423423423/',
-#                  '/stories/asdffsadfasdf/',
-#                  '/authors/asdfasdfsda/',
-#                  '/authors/23423423/',
-#                  '/fsdafower/',
+                  '/stories/asdffsadfasdf/',
+                  '/authors/asdfasdfsda/',
+                  '/authors/23423423/',
+                  '/fsdafower/',
                  )
 
     def setUp(self):
