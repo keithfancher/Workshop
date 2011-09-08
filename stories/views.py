@@ -98,16 +98,17 @@ def edit_story(request, story_id):
     # It's a POST request, save the story
     if request.method == 'POST':
         form = StoryForm(request.POST, instance=story)
-        if form.is_valid(): # do I need to check this?
+        if form.is_valid():
             form.save()
             return HttpResponseRedirect('/stories/' + story_id + '/')
 
     # It's a GET request, just display the form
     else:
         form = StoryForm(instance=story)
-        return render_to_response('stories/edit.html',
-            {'story': story,'form': form},
-            context_instance=RequestContext(request))
+
+    return render_to_response('stories/edit.html',
+        {'story': story,'form': form},
+        context_instance=RequestContext(request))
 
 #
 # Delete an existing story and attached comments

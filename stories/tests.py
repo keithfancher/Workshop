@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.test import TestCase
 from django.test.client import Client
 from django.contrib.auth.models import User
@@ -6,8 +8,6 @@ from workshop.stories.models import Story
 
 
 """
-- edit story form properly validates
-
 - can't edit others' story
 - can't edit others' profile
 - can't delete others' story
@@ -31,25 +31,51 @@ class CommentsTest(TestCase):
 class StoryFormsTest(TestCase):
     def setUp(self):
         self.c = Client()
-        user = User.objects.create_user('test', 'test@example.com', 'test')
+        self.user = User.objects.create_user('test', 'test@example.com', 'test')
+
+        # add an existing story to the db
+        self.story = Story()
+        self.story.title = "This is a great story, yeah?"
+        self.story.author = self.user
+        self.story.pub_date = date.today()
+        self.story.text = "This is the text of the story. Awesome!"
+        self.story.save()
 
     def test_new_story_form_invalid(self):
-        """invalid input should show errors and re-display the new story form"""
+        """invalid new story input should show errors and re-display the new
+        story form"""
         self.c.login(username='test', password='test')
         data = {'title': '', 'text': ''}
         response = self.c.post('/stories/new/', data)
         # should be re-rendering the new story template, with errors
-        # use assertFormError()?
         self.assertTemplateUsed(response, 'stories/new.html')
 
     def test_new_story_form_valid(self):
-        """valid input should create new story and redirect to it"""
+        """valid new story input should create new story and redirect to it"""
         self.c.login(username='test', password='test')
         data = {'title': 'a title', 'text': 'some text'}
         response = self.c.post('/stories/new/', data)
-        # should be redirecting to the new story... it's the first added, so it
-        # should be number 1
-        self.assertRedirects(response, '/stories/1/')
+        # should be redirecting to the new story... it's the second story after
+        # the one added in setUp, so it should be number 2
+        self.assertRedirects(response, '/stories/2/')
+
+    def test_edit_story_form_invalid(self):
+        """invalid edit story form should show errors and redisplay form"""
+        self.c.login(username='test', password='test')
+        data = {'title': '', 'text': ''}
+        response = self.c.post('/stories/' + str(self.story.id) + '/edit/',
+                               data)
+        # should be re-rendering the edit story template, with errors
+        self.assertTemplateUsed(response, 'stories/edit.html')
+
+    def test_edit_story_form_valid(self):
+        """valid edit story form should show save the story and redirect to
+        it"""
+        self.c.login(username='test', password='test')
+        data = {'title': 'A better story', 'text': 'Way cool, man.'}
+        response = self.c.post('/stories/' + str(self.story.id) + '/edit/',
+                               data)
+        self.assertRedirects(response, '/stories/' + str(self.story.id)  + '/')
 
 
 class StoriesTest(TestCase):
@@ -81,6 +107,7 @@ class UrlTest(TestCase):
                  '/stories/new/',
                 )
 
+    # fail!
     should_404 = ('/stories/23423423423/',
                   '/stories/asdffsadfasdf/',
                   '/authors/asdfasdfsda/',
