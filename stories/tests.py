@@ -8,11 +8,6 @@ from workshop.stories.models import Story
 
 
 """
-- can't edit others' story
-- can't edit others' profile
-- can't delete others' story
-- logged out user can't edit/delete anything (story/profile)
-
 - must be logged in to post comments
 
 - test the forms (signup, sign in, add/edit story, profile)
@@ -20,7 +15,7 @@ from workshop.stories.models import Story
 - test that URLs get correct views?
 
 doesn't exist yet:
-(- if logged in, login link should redirect to profile page)
+(- if logged in, login link should redirect to profile page ?)
 """
 
 
@@ -81,8 +76,27 @@ class StoryFormsTest(TestCase):
 class StoriesTest(TestCase):
     def setUp(self):
         self.c = Client()
-        user1 = User.objects.create_user('test1', 'test1@example.com', 'test1')
-        user2 = User.objects.create_user('test2', 'test2@example.com', 'test2')
+        self.user1 = User.objects.create_user('test1', 'test1@example.com',
+                                              'test1')
+        self.user2 = User.objects.create_user('test2', 'test2@example.com',
+                                              'test2')
+        # add an existing story to the db
+        self.story = Story()
+        self.story.title = "This is a great story, yeah?"
+        self.story.author = self.user1
+        self.story.pub_date = date.today()
+        self.story.text = "This is the text of the story. Awesome!"
+        self.story.save()
+
+    def test_user_cant_edit_others_story(self):
+        self.c.login(username='test2', password='test2')
+        response = self.c.get('/stories/1/edit/')
+        self.failUnlessEqual(response.status_code, 403)
+
+    def test_user_cant_delete_others_story(self):
+        self.c.login(username='test2', password='test2')
+        response = self.c.get('/stories/1/delete/')
+        self.failUnlessEqual(response.status_code, 403)
 
     def test_create_story(self):
         pass
@@ -105,6 +119,8 @@ class UrlTest(TestCase):
     urls_auth = ('/profile/',
                  '/profile/edit/',
                  '/stories/new/',
+                 '/stories/1/edit/',
+                 '/stories/1/delete/',
                 )
 
     # fail!
@@ -117,7 +133,15 @@ class UrlTest(TestCase):
 
     def setUp(self):
         self.c = Client()
-        user = User.objects.create_user('test', 'test@example.com', 'test')
+        self.user = User.objects.create_user('test', 'test@example.com', 'test')
+
+        # add an existing story to the db, owned by self.user
+        self.story = Story()
+        self.story.title = "This is a great story, yeah?"
+        self.story.author = self.user
+        self.story.pub_date = date.today()
+        self.story.text = "This is the text of the story. Awesome!"
+        self.story.save()
 
     def test_basic_urls(self):
         """basic URLs should return response code 200"""

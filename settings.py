@@ -104,3 +104,6 @@ COMMENTS_ALLOW_PROFANITIES = True;
 
 # Keeps generic login view from redirecting to nonexistent page
 LOGIN_REDIRECT_URL = '/profile/'
+
+# Makes @login_required decorator redirect properly
+LOGIN_URL = '/login/'
