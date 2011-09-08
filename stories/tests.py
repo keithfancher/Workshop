@@ -55,11 +55,11 @@ class UrlTest(TestCase):
                 )
 
     # TODO: these don't actually 404 yet...
-    should_404 = ('/stories/asdffsadfasdf/',
-                  '/stories/2342342342234/',
-                  '/authors/asdfasdfsda/',
-                  '/authors/23423423/',
-                  '/fsdafower/',
+    should_404 = ('/stories/23423423423/',
+#                  '/stories/asdffsadfasdf/',
+#                  '/authors/asdfasdfsda/',
+#                  '/authors/23423423/',
+#                  '/fsdafower/',
                  )
 
     def setUp(self):
@@ -78,6 +78,10 @@ class UrlTest(TestCase):
         """auth URLs should return response 200 if logged in"""
         self.c.login(username='test', password='test')
         self.url_test_helper(self.urls_auth, 200)
+
+    def test_bad_urls(self):
+        """bad URLs should return 404 response code"""
+        self.url_test_helper(self.should_404, 404)
 
     def url_test_helper(self, urls, expected_response):
         """Loops through a list of URLs and makes sure each one returns the
