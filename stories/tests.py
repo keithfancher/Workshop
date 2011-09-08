@@ -2,8 +2,12 @@ from django.test import TestCase
 from django.test.client import Client
 from django.contrib.auth.models import User
 
+from workshop.stories.models import Story
+
 
 """
+- edit story form properly validates
+
 - can't edit others' story
 - can't edit others' profile
 - can't delete others' story
@@ -23,6 +27,29 @@ doesn't exist yet:
 class CommentsTest(TestCase):
     def setUp(self):
         pass
+
+class StoryFormsTest(TestCase):
+    def setUp(self):
+        self.c = Client()
+        user = User.objects.create_user('test', 'test@example.com', 'test')
+
+    def test_new_story_form_invalid(self):
+        """invalid input should show errors and re-display the new story form"""
+        self.c.login(username='test', password='test')
+        data = {'title': '', 'text': ''}
+        response = self.c.post('/stories/new/', data)
+        # should be re-rendering the new story template, with errors
+        # use assertFormError()?
+        self.assertTemplateUsed(response, 'stories/new.html')
+
+    def test_new_story_form_valid(self):
+        """valid input should create new story and redirect to it"""
+        self.c.login(username='test', password='test')
+        data = {'title': 'a title', 'text': 'some text'}
+        response = self.c.post('/stories/new/', data)
+        # should be redirecting to the new story... it's the first added, so it
+        # should be number 1
+        self.assertRedirects(response, '/stories/1/')
 
 
 class StoriesTest(TestCase):

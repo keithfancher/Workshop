@@ -65,7 +65,7 @@ def new_story(request):
         if form.is_valid():
             # Need to set author as current user
             new_story = form.save(commit=False)
-            new_story.author = request.user # TODO: should this be user.id?
+            new_story.author = request.user
             new_story.pub_date = date.today()
             new_story.add_line_breaks() # add line breaks BEFORE saving
             new_story.save() # have to explicitly save here
@@ -74,9 +74,11 @@ def new_story(request):
     # If a GET request, display the form
     else:
         form = StoryForm()
-        return render_to_response('stories/new.html',
-            {'form': form},
-            context_instance=RequestContext(request))
+
+    # Make sure to return a response even if form is invalid... re-show form
+    return render_to_response('stories/new.html',
+        {'form': form},
+        context_instance=RequestContext(request))
 
 #    
 # Edit an existing story
