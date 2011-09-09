@@ -1,18 +1,18 @@
+import time
 from datetime import date
 
 from django.test import TestCase
 from django.test.client import Client
 from django.contrib.auth.models import User
+from django.contrib.comments.forms import CommentSecurityForm
 
 from workshop.stories.models import Story
 
 
 """
 TOTEST:
-- must be logged in to post comments
-- comments form
-- signup/signin forms
-- profile form
+- validate signup/signin forms
+- validate profile form
 
 doesn't exist yet:
 - if logged in, login link should redirect to profile page?
@@ -21,13 +21,66 @@ doesn't exist yet:
 
 class CommentsTest(TestCase):
     def setUp(self):
-        pass
-
-class StoryFormsTest(TestCase):
-    def setUp(self):
         self.c = Client()
         self.user = User.objects.create_user('test', 'test@example.com', 'test')
 
+        # add an existing story to the db
+        self.story = Story()
+        self.story.title = "This is a great story, yeah?"
+        self.story.author = self.user
+        self.story.pub_date = date.today()
+        self.story.text = "This is the text of the story. Awesome!"
+        self.story.save()
+
+    def test_anon_user_cant_see_comment_form(self):
+        """anonymous user doesn't see comment form"""
+        response = self.c.get('/stories/1/')
+        self.assertNotContains(response, '<form action="/comments/post/"')
+
+    def test_logged_in_user_can_see_comment_form(self):
+        """logged in users should see comment form"""
+        self.c.login(username='test', password='test')
+        response = self.c.get('/stories/1/')
+        self.assertContains(response, '<form action="/comments/post/"')
+
+    def test_empty_comment_form(self):
+        """empty comment should send user to preview form"""
+        self.c.login(username='test', password='test')
+
+        # all this bullshit to create an empty fucking comment
+        data = {'content_type': 'stories.story',
+                'object_pk': '1',
+                'timestamp': str(int(time.time())),
+                'comment': ''}
+        csf = CommentSecurityForm(self.story)
+        security_hash = csf.generate_security_hash(data['content_type'],
+                                                   data['object_pk'],
+                                                   data['timestamp'])
+        data['security_hash'] = security_hash
+        response = self.c.post('/comments/post/', data)
+        self.assertTemplateUsed(response, 'comments/preview.html')
+
+    def test_anon_user_cant_post_comment(self):
+        """
+        Anonymous user shouldn't be able to post a comment. Granted, the
+        form is already hidden from them, but what if they're crafty with their
+        POST requests?
+        
+        Okay, so it turns out that simply hiding the form is enough, since the
+        Comment model won't validate unless the "security hash" is present and
+        correct, and the only way for them to calculate that hash is if they
+        have my settings.SECRET_KEY. And if they've got that, well... the last
+        thing I'm going to be worried about is an anonymous comment or two...
+        """
+        pass
+
+
+class StoryTest(TestCase):
+    def setUp(self):
+        self.c = Client()
+        self.user = User.objects.create_user('test', 'test@example.com', 'test')
+        self.user2 = User.objects.create_user('test2', 'test2@example.com',
+                                              'test2')
         # add an existing story to the db
         self.story = Story()
         self.story.title = "This is a great story, yeah?"
@@ -72,34 +125,17 @@ class StoryFormsTest(TestCase):
                                data)
         self.assertRedirects(response, '/stories/' + str(self.story.id)  + '/')
 
-
-class StoriesTest(TestCase):
-    def setUp(self):
-        self.c = Client()
-        self.user1 = User.objects.create_user('test1', 'test1@example.com',
-                                              'test1')
-        self.user2 = User.objects.create_user('test2', 'test2@example.com',
-                                              'test2')
-        # add an existing story to the db
-        self.story = Story()
-        self.story.title = "This is a great story, yeah?"
-        self.story.author = self.user1
-        self.story.pub_date = date.today()
-        self.story.text = "This is the text of the story. Awesome!"
-        self.story.save()
-
     def test_user_cant_edit_others_story(self):
+        """logged in user is forbidden from editing other users' stories"""
         self.c.login(username='test2', password='test2')
         response = self.c.get('/stories/1/edit/')
         self.failUnlessEqual(response.status_code, 403)
 
     def test_user_cant_delete_others_story(self):
+        """logged in user is forbidden from deleting other users' stories"""
         self.c.login(username='test2', password='test2')
         response = self.c.get('/stories/1/delete/')
         self.failUnlessEqual(response.status_code, 403)
-
-    def test_create_story(self):
-        pass
 
 
 class UrlTest(TestCase):

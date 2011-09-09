@@ -55,7 +55,7 @@
     {% if user.is_authenticated %}
         {% render_comment_form for story %}
     {% else %}
-        Please <a href="/login/?next=/story/{{ story.id }}/#comments_section">log in</a> to post comments.
+        Please <a href="/login/?next=/stories/{{ story.id }}/#comments_section">log in</a> to post comments.
     {% endif %}
 </div>
 
