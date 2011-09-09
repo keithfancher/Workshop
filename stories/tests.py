@@ -150,6 +150,7 @@ class UrlTest(TestCase):
                   '/stories/',
                   '/authors/',
                   '/stories/1/',
+                  '/authors/1/',
                  )
 
     # these require the user to be logged in

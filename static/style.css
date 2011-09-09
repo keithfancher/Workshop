@@ -35,6 +35,13 @@ a:hover {
     padding: 5px;
 }
 
+#main_header a {
+    color: black;
+}
+#main_header a:hover {
+    text-decoration: none;
+}
+
 #navbar {
     float: right;
     margin: 0;
@@ -137,4 +144,10 @@ a:hover {
 p.comment_time {
     color: gray;
     font-size: 12px;
+}
+
+.round {
+    -moz-border-radius:    10px;
+    -webkit-border-radius: 10px;
+    border-radius:         10px;
 }
