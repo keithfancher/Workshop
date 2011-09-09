@@ -2,23 +2,22 @@
 
 {% block title %}Browse stories{% endblock %}
 
-{% block heading %}Browse all stories.{% endblock %}
+{% block heading %}Browse the stories.{% endblock %}
 
 {% block content %}
 
-<p>
-Here are all the stories that exist RIGHT NOW. Shit.
-</p>
-
 {% if stories %}
-    <ul class="story_list">
+    <table>
         {% for story in stories %}
-        <li>
+        <tr>
+          <td>
             <a href="/stories/{{ story.id }}/">{{ story.title }}</a> <br />
             by {{ story.author.get_full_name }}
-        </li>
+          </td>
+        </tr>
         {% endfor %}
-    </ul>
+    </table>
+
 {% else %}
     <p>Whoa, there aren't any stories here?</p>
 {% endif %}

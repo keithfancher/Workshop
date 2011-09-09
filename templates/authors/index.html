@@ -2,20 +2,18 @@
 
 {% block title %}Browse authors{% endblock %}
 
-{% block heading %}Browse all authors.{% endblock %}
+{% block heading %}Browse the authors.{% endblock %}
 
 {% block content %}
 
-<p>
-So many authors. You should probably check 'em all out, okay?
-</p>
-
 {% if authors %}
-    <ul>
+    <table>
         {% for author in authors %}
-        <li><a href="/authors/{{ author.id }}/">{{ author.get_full_name }}</a></li>
+        <tr><td>
+        <a href="/authors/{{ author.id }}/">{{ author.get_full_name }}</a>
+        </td></tr>
         {% endfor %}
-    </ul>
+    </table>
 {% else %}
     <p>Whoa, there aren't any authors here?</p>
 {% endif %}

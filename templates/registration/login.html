@@ -12,19 +12,19 @@
 
     <p>
     <form action="" method="post">
-        <label for="username">User name:</label>
+        <label for="username">Username:</label>
         <input type="text" name="username" value="" id="username">
         <label for="password">Password:</label>
         <input type="password" name="password" value="" id="password">
 
-        <input type="submit" value="Log In" />
+        <input type="submit" value="Log in" />
         <input type="hidden" name="next" value="{{ next|escape }}" />
     </form>
     </p>
 
     <p>
-    What, you're not registered? Click <a href="/register/">here</a> then, and
-    take care of that, okay?
+    Not registered? Why the hell not? <a href="/register/">Sign up</a>, there's
+    no time like the present!
     </p>
 
 {% endblock %}
