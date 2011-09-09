@@ -2,8 +2,7 @@
  * main layout shit
  */
 body {
-/*            font-family: verdana, sans-serif; */
-    font-family: 'Palatino', 'Palatino Linotype', 'Georgia', serif;
+    font-family: 'Palatino', 'Palatino Linotype', 'Palladio Uralic', 'Georgia', serif;
 /*    font-size: 17px; */
 }
 
@@ -17,6 +16,10 @@ h1 {
 
 h2, h3 {
     font-size: 160%;
+}
+
+p {
+    margin-bottom: 1.2em;
 }
 
 #main_header {
@@ -133,7 +136,7 @@ a:hover {
 }
 
 .story_text {
-    font-size: 93%;
+    font-size: 95%;
     line-height: 1.6em;
 }
 
