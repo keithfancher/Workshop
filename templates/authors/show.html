@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}{{ author.get_full_name }}'s Author Page{% endblock %}
+{% block title %}{{ author.get_full_name }}{% endblock %}
 
-{% block heading %}{{ author.get_full_name }}'s Author Page{% endblock %}
+{% block heading %}{{ author.get_full_name }}{% endblock %}
 
 {% block content %}
 
-<h2>About {{ author.first_name }}</h2>
+<h2>Profile</h2>
 
 <p>
 {% if author.get_profile.profile %}
@@ -17,7 +17,7 @@
 {% endif %}
 </p>
 
-<h2>{{ author.first_name }}'s Stories</h2>
+<h2>Stories</h2>
 
 {% if stories %}
     <ul>

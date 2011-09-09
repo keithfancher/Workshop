@@ -12,8 +12,8 @@
 
 {% if own_story %}
 <p class="edit_story">
-(<a href="/stories/{{ story.id }}/edit/">edit this story</a>)
-(<a href="/stories/{{ story.id }}/delete/">delete this story</a>)
+[<a href="/stories/{{ story.id }}/edit/">edit story</a> / 
+<a href="/stories/{{ story.id }}/delete/">delete story</a>]
 </p>
 {% endif %}
 
@@ -29,7 +29,9 @@
     {% get_comment_list for story as comment_list %}
 
     {% if not comment_list %}
+    <p>
     No feedback yet. Why not leave some?
+    </p>
     {% endif %}
 
     {% for comment in comment_list %}
@@ -38,9 +40,9 @@
         <a href="/authors/{{ comment.user.id }}/">{{ comment.user }}</a> said:
         </p>
 
-        <p class="comment_text">
+        <blockquote class="comment_text">
         {{ comment.comment|linebreaks }}
-        </p>
+        </blockquote>
 
         <p class="comment_time">
         {{ comment.submit_date|timesince }} ago

@@ -2,48 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Workshop | {% block title %}{% endblock %}</title>
+    <title>fict.us | {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/blueprint/screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/static/blueprint/print.css" type="text/css" media="print"> 
+    <!--[if lt IE 8]>
+        <link rel="stylesheet" href="/static/blueprint/ie.css" type="text/css" media="screen, projection">
+    <![endif]-->
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
 
-<div id="outer_container">
+<div class="container">
 
-    <div id="main_header" class="round">
-        <a href="/">Workshop: Alpha</a>
-    </div>
+    <header>
+        <div id="main_header" class="round">
+          <a href="/">fict.us | <span class="quiet">alpha</span></a>
+        </div>
 
-    <ul id="navbar">
-        <li><a href="/">Home</a></li>
-        <li><a href="/stories/">Stories</a></li>
-        <li><a href="/authors/">Authors</a></li>
-        <li><a href="/search/">Search</a></li>
-        <li><a href="/about/">About</a></li>
-        <li> | </li>
-        {% if user.is_authenticated %}
-            <li><a href="/profile/">Profile</a></li>
-            <li><a href="/logout/">Log out</a></li>
-        {% else %}
-            <li><a href="/login/">Log in</a></li>
-        {% endif %}
-    </ul>
+        <ul id="navbar">
+            <li><a href="/">home</a></li>
+            <li><a href="/stories/">stories</a></li>
+            <li><a href="/authors/">authors</a></li>
+            <li><a href="/search/">search</a></li>
+            <li><a href="/about/">about</a></li>
+            <li> | </li>
+            {% if user.is_authenticated %}
+                <li><a href="/profile/">profile</a></li>
+                <li><a href="/logout/">logout</a></li>
+            {% else %}
+                <li><a href="/login/">login</a></li>
+            {% endif %}
+        </ul>
+    </header>
 
-    <div id="main_content">
+    <section>
+        <div id="main_content">
 
-    <h1 class="page_title">{% block heading %}{% endblock %}</h1>
+        <h1 class="page_title">{% block heading %}{% endblock %}</h1>
 
-    {% block content %}{% endblock %}
+        {% block content %}{% endblock %}
 
-    </div> <!-- main_content -->
+        </div> <!-- main_content -->
+    </section>
 
-    {% block footer %}
-    <div id="footer">
-        <hr>
-        Copyright &copy; 2011 Your Mom, LLC.
-    </div>
+    <footer>
+        <div id="footer" class="small quiet">
+            <hr>
+            Copyright &copy; 2011 Your Mom, LLC.
+        </div>
+    </footer>
 
-</div> <!-- outer container -->
-    {% endblock %}
+</div> <!-- container -->
+
 </body>
 </html>
 

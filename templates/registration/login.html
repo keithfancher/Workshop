@@ -2,7 +2,7 @@
 
 {% block title %}Log in{% endblock %}
 
-{% block heading %}Log in already{% endblock %}
+{% block heading %}Log in{% endblock %}
 
 {% block content %}
 
@@ -10,6 +10,7 @@
         <p class="error">Sorry, that's not a valid username or password</p>
     {% endif %}
 
+    <p>
     <form action="" method="post">
         <label for="username">User name:</label>
         <input type="text" name="username" value="" id="username">
@@ -19,6 +20,7 @@
         <input type="submit" value="Log In" />
         <input type="hidden" name="next" value="{{ next|escape }}" />
     </form>
+    </p>
 
     <p>
     What, you're not registered? Click <a href="/register/">here</a> then, and

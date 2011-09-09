@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 
-{% block title %}{{ user.username }}'s Profile{% endblock %}
+{% block title %}Your Profile{% endblock %}
 
-{% block heading %}This is your fucking profile, {{ user.username }}{% endblock %}
+{% block heading %}It's all about you.{% endblock %}
 
 {% block content %}
 
-<h2>About you</h2>
+<h2>Profile</h2>
 
 <span class="edit_profile">
-(<a href="/profile/edit/">edit</a>)
+[<a href="/profile/edit/">edit</a>]
 </span>
 
 <p>
@@ -20,10 +20,10 @@
 {{ user.get_profile.profile|linebreaks }}
 </p>
 
-<h2>Your stories</h2>
+<h2>Stories</h2>
 
 <span class="add_story">
-(<a href="/stories/new/">add story</a>)
+[<a href="/stories/new/">new story</a>]
 </span>
 
 {% if stories %}
