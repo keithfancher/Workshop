@@ -202,3 +202,15 @@ p.comment_time {
     -webkit-border-radius: 10px;
     border-radius:         10px;
 }
+
+/*
+ * error-ey stuff
+ */
+ul.errorlist {
+    float: right;
+    color: red;
+}
+form td {
+    color: gray;
+    font-style: italic;
+}

@@ -29,10 +29,8 @@ class AuthorForm(ModelForm):
 
 
 class BetterUserCreationForm(UserCreationForm):
-    email = forms.EmailField(label="Email") # TODO: required?
-    first_name = forms.CharField(label="First name", required=False) # TODO: max_length etc?
-    last_name = forms.CharField(label="Last name", required=False) # TODO: max_length etc?
+    email = forms.EmailField(label="Email", help_text="I will never send you spam. I will only email you for damn good reasons.")
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name', 'last_name')
+        fields = ('username', 'email')
