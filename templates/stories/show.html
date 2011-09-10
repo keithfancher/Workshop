@@ -8,7 +8,7 @@
 
 {% block content %}
 
-<h2 class="author_name">by <a href="/authors/{{ story.author.id }}/">{{ story.author.get_full_name }}</a></h2>
+<h2 class="author_name">by <a href="/authors/{{ story.author.id }}/">{{ story.author.get_profile }}</a></h2>
 
 {% if own_story %}
 <p class="edit_story">
@@ -37,7 +37,7 @@
     {% for comment in comment_list %}
     <div class="comment">
         <p class="comment_author">
-        <a href="/authors/{{ comment.user.id }}/">{{ comment.user }}</a> said:
+        <a href="/authors/{{ comment.user.id }}/">{{ comment.user.get_profile }}</a> said:
         </p>
 
         <blockquote class="comment_text">

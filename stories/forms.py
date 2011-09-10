@@ -25,7 +25,7 @@ class AuthorForm(ModelForm):
     
     class Meta:
         model = Author
-        fields = ('profile',)
+        fields = ('byline', 'profile',)
 
 
 class BetterUserCreationForm(UserCreationForm):

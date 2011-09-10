@@ -204,13 +204,25 @@ p.comment_time {
 }
 
 /*
- * error-ey stuff
+ * form shit
  */
 ul.errorlist {
     float: right;
     color: red;
 }
+
 form td {
     color: gray;
     font-style: italic;
+    font-size: 90%;
+}
+
+/* don't want my form tables to be colored by blueprint */
+form tr:nth-child(even) td, tr.even td {
+    background: transparent;
+}
+
+form th {
+  vertical-align: top;
+  padding-top: 7px;
 }

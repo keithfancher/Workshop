@@ -7,15 +7,25 @@
 {% block content %}
 
 <span class="edit_profile">
-[<a href="/profile/edit/">edit</a>]
+[<a href="/profile/edit/">edit profile</a>]
 </span>
 
 <p>
-{{ user.get_full_name }}
+{% if user.get_profile.byline %}
+    <strong>{{ user.get_profile.byline }}</strong>
+{% else %}
+    <div class="notice">No byline set. We'll just show your username until you
+      set one in your profile.</div>
+{% endif %}
 </p>
 
 <p>
-{{ user.get_profile.profile|linebreaks }}
+{% if user.get_profile.profile %}
+    {{ user.get_profile.profile|linebreaks }}
+{% else %}
+    <div class="notice">You haven't added a profile/author bio yet. Why not
+      click the link above and tell us a bit about you?</div>
+{% endif %}
 </p>
 
 <h2>Stories</h2>

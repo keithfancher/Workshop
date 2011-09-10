@@ -6,7 +6,10 @@ from django.db.models.signals import post_save
 class Author(models.Model):
     # Makes Author essentially a "user profile", extending User.
     user = models.ForeignKey(User, unique=True)
-    profile = models.TextField()
+    profile = models.TextField(blank=True,
+                               help_text="Tell us a little about yourself.")
+    byline = models.CharField(max_length=100, blank=True, 
+                              help_text="If you leave this blank, your username will be displayed instead.")
 
     # Does this Author own a given Story?
     def owns_story(self, story_id):
@@ -16,9 +19,15 @@ class Author(models.Model):
             return False
         return True
 
-    # Output the user's full name
+    # If user has a byline, display that. Otherwise show username.
+    def name(self):
+        if self.byline:
+            return self.byline
+        else:
+            return self.user.username
+
     def __unicode__(self):
-        return self.user.get_full_name()
+        return self.name()
 
 #    class Meta:
 #        ordering = ['last_name']
@@ -29,6 +38,7 @@ class Story(models.Model):
     author = models.ForeignKey(User, blank=True) # changed from Author to User
     pub_date = models.DateField()
     text = models.TextField() # no max size?
+    author_note = models.TextField()
 
     def __unicode__(self):
         return self.title

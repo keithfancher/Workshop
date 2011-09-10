@@ -2,14 +2,9 @@
 
 {% block title %}Edit profile{% endblock %}
 
-{% block heading %}Edit your profile?{% endblock %}
+{% block heading %}Who are you?{% endblock %}
 
 {% block content %}
-
-<p>
-Describe yourself. Don't use any formatting. Newlines will be respected,
-though. (Gotta respect the newlines.)
-</p>
 
 {% if form.errors %}
     <p class="form_error">
@@ -20,8 +15,10 @@ though. (Gotta respect the newlines.)
 <form action="" method="post">
     <table>
     {{ form.as_table }}
+    <tr>
+        <td></td>
+        <td><input type="submit" value="Save"></td></tr>
     </table>
-    <input type="submit" value="Submit">
 </form>
 
 {% endblock %}
