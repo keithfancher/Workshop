@@ -2,14 +2,9 @@
 
 {% block title %}New story{% endblock %}
 
-{% block heading %}Add a new story{% endblock %}
+{% block heading %}Add a new story.{% endblock %}
 
 {% block content %}
-
-<p>
-Add your story here. I'll have some more explanation here about formatting and
-shit later. For now, just paste it in and give it a shot!
-</p>
 
 {% if form.errors %}
     <p class="form_error">
@@ -20,8 +15,8 @@ shit later. For now, just paste it in and give it a shot!
 <form action="" method="post">
     <table>
     {{ form.as_table }}
+    <tr><td></td><td><input type="submit" value="Create story"></td></tr>
     </table>
-    <input type="submit" value="Submit">
 </form>
 
 {% endblock %}

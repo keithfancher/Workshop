@@ -6,8 +6,8 @@ from django.db.models.signals import post_save
 class Author(models.Model):
     # Makes Author essentially a "user profile", extending User.
     user = models.ForeignKey(User, unique=True)
-    profile = models.TextField(blank=True,
-                               help_text="Tell us a little about yourself.")
+    author_bio = models.TextField(blank=True,
+                                  help_text="Tell us a little about yourself.")
     byline = models.CharField(max_length=100, blank=True, 
                               help_text="If you leave this blank, your username will be displayed instead.")
 

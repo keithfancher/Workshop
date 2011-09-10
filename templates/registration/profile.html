@@ -20,11 +20,11 @@
 </p>
 
 <p>
-{% if user.get_profile.profile %}
-    {{ user.get_profile.profile|linebreaks }}
+{% if user.get_profile.author_bio %}
+    {{ user.get_profile.author_bio|linebreaks }}
 {% else %}
-    <div class="notice">You haven't added a profile/author bio yet. Why not
-      click the link above and tell us a bit about you?</div>
+    <div class="notice">You haven't added an author bio yet. Why not click the
+      link above and tell us a bit about you?</div>
 {% endif %}
 </p>
 
@@ -41,7 +41,7 @@
         {% endfor %}
     </ul>
 {% else %}
-    <p>You haven't written anything yet! Shit, man! Hurry up! Add a story!</p>
+    <p>You haven't written anything yet. Add a story!</p>
 {% endif%}
 
 {% endblock %}

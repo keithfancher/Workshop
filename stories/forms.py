@@ -13,7 +13,7 @@ class SearchForm(forms.Form):
 class StoryForm(ModelForm):
     # make these look less stupid
     title = forms.CharField(max_length=100,
-        widget=forms.TextInput(attrs={'size': 64}))
+        widget=forms.TextInput(attrs={'size': 61}))
     text = forms.CharField(widget=forms.Textarea(attrs={'rows': 25, 'cols': 50}))
 
     class Meta:
@@ -25,7 +25,7 @@ class AuthorForm(ModelForm):
     
     class Meta:
         model = Author
-        fields = ('byline', 'profile',)
+        fields = ('byline', 'author_bio',)
 
 
 class BetterUserCreationForm(UserCreationForm):

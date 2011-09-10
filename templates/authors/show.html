@@ -7,8 +7,8 @@
 {% block content %}
 
 <p>
-{% if author.get_profile.profile %}
-    {{ author.get_profile.profile|linebreaks }}
+{% if author.get_profile.author_bio %}
+    {{ author.get_profile.author_bio|linebreaks }}
 {% else %}
     We don't know anything about this person 'cause they haven't filled out
     their profile yet.

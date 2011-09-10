@@ -2,14 +2,11 @@
 
 {% block title %}Edit story{% endblock %}
 
-{% block heading %}Edit this story?{% endblock %}
+{% block heading %}Edit your story.{% endblock %}
 
 {% block content %}
 
-<p>
-Edit your story here. This would also be a good place for some notes about
-formatting and a link to some help docs. But not yet!
-</p>
+<p><em>You mean it's not already perfect?</em></p>
 
 {% if form.errors %}
     <p class="form_error">
@@ -20,8 +17,8 @@ formatting and a link to some help docs. But not yet!
 <form action="" method="post">
     <table>
     {{ form.as_table }}
+    <tr><td></td><td><input type="submit" value="Save"></td></tr>
     </table>
-    <input type="submit" value="Submit">
 </form>
 
 {% endblock %}
