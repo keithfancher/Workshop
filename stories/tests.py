@@ -18,6 +18,18 @@ doesn't exist yet:
 - if logged in, login link should redirect to profile page?
 """
 
+class AuthorTest(TestCase):
+    def setUp(self):
+        self.c = Client()
+        self.user = User.objects.create_user('test', 'test@example.com', 'test')
+
+    def test_show_author_name(self):
+        """If author's byline is set, that's what should be displayed.
+        Otherwise should show username."""
+        self.failUnlessEqual(self.user.get_profile().name(), "test")
+        self.user.get_profile().byline = "A Big Asshole"
+        self.failUnlessEqual(self.user.get_profile().name(), "A Big Asshole")
+
 
 class CommentsTest(TestCase):
     def setUp(self):
