@@ -1,6 +1,7 @@
 from datetime import date
 
 from django import forms
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
@@ -223,13 +224,16 @@ def search(request):
 # View the registration page
 #
 def register(request):
-    # TODO: don't let this happen if already logged in?
     if request.method == 'POST':
         form = BetterUserCreationForm(request.POST)
         if form.is_valid():
-            new_user = form.save()
-            # TODO: actually log new user in! and redirect to profile
-            return HttpResponseRedirect("/")
+            form.save()
+            # have to call authenticate for login() to work, even though the
+            # user object is returned by form.save()
+            new_user = authenticate(username=form.cleaned_data['username'],
+                                    password=form.cleaned_data['password1'])
+            login(request, new_user) # actually log in new user
+            return HttpResponseRedirect("/profile/")
     else:
         form = BetterUserCreationForm()
     return render_to_response("registration/register.html",
