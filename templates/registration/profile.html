@@ -12,7 +12,8 @@
 
 <p>
 {% if user.get_profile.byline %}
-    <strong>{{ user.get_profile.byline }}</strong>
+    <strong>{{ user.get_profile.byline }}</strong> <br />
+    <em><span class="quiet">({{ user.username }})</span></em>
 {% else %}
     <div class="notice">No byline set. We'll just show your username until you
       set one in your profile.</div>
