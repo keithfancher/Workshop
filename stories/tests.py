@@ -9,15 +9,6 @@ from django.contrib.comments.forms import CommentSecurityForm
 from workshop.stories.models import Story
 
 
-"""
-TOTEST:
-- validate signup/signin forms
-- validate profile form
-
-doesn't exist yet:
-- if logged in, login link should redirect to profile page?
-"""
-
 class AuthorTest(TestCase):
     def setUp(self):
         self.c = Client()
@@ -29,6 +20,83 @@ class AuthorTest(TestCase):
         self.failUnlessEqual(self.user.get_profile().name(), "test")
         self.user.get_profile().byline = "A Big Asshole"
         self.failUnlessEqual(self.user.get_profile().name(), "A Big Asshole")
+
+
+class UserFormsTest(TestCase):
+    def setUp(self):
+        self.c = Client()
+        self.user = User.objects.create_user('test', 'test@example.com', 'test')
+
+    def test_show_author_name(self):
+        """If author's byline is set, that's what should be displayed.
+        Otherwise should show username."""
+        self.failUnlessEqual(self.user.get_profile().name(), "test")
+        self.user.get_profile().byline = "A Big Asshole"
+        self.failUnlessEqual(self.user.get_profile().name(), "A Big Asshole")
+
+    def test_empty_login_form(self):
+        """Empty login form should just redisplay with errors"""
+        data = {'username': '', 'password': ''}
+        response = self.c.post('/login/', data)
+        self.assertTemplateUsed(response, 'registration/login.html')
+        self.assertContains(response, '<p class="error">Sorry')
+
+    def test_bad_credentials_login_form(self):
+        """Bad login info should redisplay form with errors"""
+        data = {'username': 'fuck', 'password': 'you'}
+        response = self.c.post('/login/', data)
+        self.assertTemplateUsed(response, 'registration/login.html')
+        self.assertContains(response, '<p class="error">Sorry')
+
+    def test_login_form_success(self):
+        """Good login info should log user in and redirect to profile"""
+        data = {'username': 'test', 'password': 'test'}
+        response = self.c.post('/login/', data)
+        self.assertRedirects(response, '/profile/')
+
+    def test_edit_profile_form(self):
+        """This form's fields aren't required and don't have any special
+        business... this shouldn't need any real testing."""
+        pass
+
+    def test_register_form_empty(self):
+        """Empty registration form should redisplay with proper errors"""
+        data = {'username': '', 'email': '', 'password1': '', 'password2': ''}
+        response = self.c.post('/register/', data)
+        self.assertTemplateUsed(response, 'registration/register.html')
+        self.assertContains(response, '<ul class="errorlist">')
+
+    def test_register_form_bad_email(self):
+        """Bad email in registration form should fail"""
+        data = {'username': 'bob', 'email': 'fuckyou',
+                'password1': 'asdf', 'password2': 'asdf'}
+        response = self.c.post('/register/', data)
+        self.assertTemplateUsed(response, 'registration/register.html')
+        self.assertContains(response, 'Enter a valid e-mail address')
+
+    def test_register_form_password_mismatch(self):
+        """Password mismatch in registration form should fail"""
+        data = {'username': 'bob', 'email': 'fuckyou@jerk.com',
+                'password1': 'asdf', 'password2': 'fdsa'}
+        response = self.c.post('/register/', data)
+        self.assertTemplateUsed(response, 'registration/register.html')
+        self.assertContains(response, 'password fields didn&#39;t match')
+
+    def test_register_form_existing_username(self):
+        """Can't register with existing username"""
+        data = {'username': 'test', 'email': 'fuckyou@jerk.com',
+                'password1': 'asdf', 'password2': 'fdsa'}
+        response = self.c.post('/register/', data)
+        self.assertTemplateUsed(response, 'registration/register.html')
+        self.assertContains(response, 'user with that username already exists')
+
+    def test_register_form_success(self):
+        """Valid information should create new user, log them in, and redirect
+        to their profile"""
+        data = {'username': 'bob', 'email': 'fuckyou@jerk.com',
+                'password1': 'asdf', 'password2': 'asdf'}
+        response = self.c.post('/register/', data)
+        self.assertRedirects(response, '/profile/')
 
 
 class CommentsTest(TestCase):

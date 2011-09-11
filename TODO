@@ -1,7 +1,6 @@
 BASIC SHIT:
 ===========
 * author's note for a story -- put it in context, etc.
-* lots of fucking tests
 * search functionality
 * list stories user has commented on in their profile (and author page?)
 
@@ -11,6 +10,7 @@ MORE SHIT:
 * bcrypt!
 * upgrade to django 1.3, make sure it still works...
 * login w/ email address, only "name" is pseudonym, no real name
+* password reset emails?
 * use django message system?
 * fancy JS form validation
 * markdown in stories and comments and such?
