@@ -7,7 +7,7 @@ from workshop.stories.models import Story, Author
 
 
 class SearchForm(forms.Form):
-    search_string = forms.CharField(label='')
+    q = forms.CharField(label='')
 
 
 class StoryForm(ModelForm):

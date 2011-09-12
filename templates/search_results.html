@@ -2,12 +2,30 @@
 
 {% block title %}Search results{% endblock %}
 
-{% block heading %}Results for "{{ query }}"{% endblock %}
+{% block heading %}You searched for <strong>{{ query }}</strong>.{% endblock %}
 
 {% block content %}
 
-<ul>
-    <li>This is a result!</li>
-</ul>
+<h2>Story matches</h2>
+{% if story_results %}
+    <ul>
+        {% for result in story_results %}
+            <li><a href="/stories/{{ result.id }}/">{{ result }}</a> by {{ result.author.get_profile }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No matches in stories.</p>
+{% endif %}
+
+<h2>Author matches</h2>
+{% if author_results %}
+    <ul>
+        {% for result in author_results %}
+            <li><a href="/authors/{{ result.user.id }}/">{{ result }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No matches in authors.</p>
+{% endif %}
 
 {% endblock %}

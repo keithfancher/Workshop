@@ -15,7 +15,7 @@ from workshop.stories.forms import AuthorForm
 from workshop.stories.forms import BetterUserCreationForm
 from workshop.stories.models import Author
 from workshop.stories.models import Story
-from workshop.stories.helpers import error_403
+from workshop.stories.helpers import error_403, search_stories, search_authors
 
 
 #
@@ -206,19 +206,21 @@ def edit_profile(request):
 # Search authors and stories.
 #
 def search(request):
-    if 'search_string' in request.GET:
-        query = request.GET['search_string']
-        form = SearchForm(request.GET)
-        if form.is_valid():
-            cd = form.cleaned_data
-            # TODO: search here
-            return render_to_response('search_results.html', 
-                {'form': form, 'query': query})
+    # show results for given query
+    if 'q' in request.GET:
+        query = request.GET['q']
+        story_results = search_stories(query)
+        author_results = search_authors(query)
+        return render_to_response('search_results.html',
+                                  {'query': query,
+                                   'story_results': story_results,
+                                   'author_results': author_results},
+                                  context_instance=RequestContext(request))
+    # otherwise just show form
     else:
         form = SearchForm()
-    return render_to_response('search_form.html',
-        {'form': form},
-        context_instance=RequestContext(request))        
+        return render_to_response('search_form.html', {'form': form},
+                                  context_instance=RequestContext(request))
 
 #
 # View the registration page
