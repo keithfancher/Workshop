@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load comments %}
 
 {% block title %}Browse stories{% endblock %}
 
@@ -8,11 +9,22 @@
 
 {% if stories %}
     <table>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Comments</th>
+        </tr>
         {% for story in stories %}
         <tr>
           <td>
-            <a href="/stories/{{ story.id }}/">{{ story.title }}</a> <br />
-            by {{ story.author.get_profile }}
+              <a href="/stories/{{ story.id }}/">{{ story.title }}</a> <br />
+          </td>
+          <td>
+              <a href="/authors/{{ story.author.id }}/">{{ story.author.get_profile }}</a>
+          </td>
+          <td style="text-align: center;">
+              {% get_comment_count for story as comments %}
+              {{ comments }}
           </td>
         </tr>
         {% endfor %}
