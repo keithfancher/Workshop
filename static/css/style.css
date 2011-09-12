@@ -226,3 +226,9 @@ form th {
   vertical-align: top;
   padding-top: 7px;
 }
+
+/* override blueprint textarea defaults to make box smaller */
+textarea.author_note {
+  width: 390px;
+  height: 50px;
+}

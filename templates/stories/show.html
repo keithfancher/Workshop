@@ -17,6 +17,12 @@
 </p>
 {% endif %}
 
+{% if story.author_note %}
+    <blockquote class="author_note">
+        <strong>Author's note:</strong> {{ story.author_note }}
+    </blockquote>
+{% endif %}
+
 <div class="story_text">
     {{ story.text|linebreaks }}
 </div>
