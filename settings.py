@@ -90,6 +90,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'workshop.stories',
     'workshop.comments',
+    'workshop.django_bcrypt',
 )
 
 # allows Author class to "extend" User -- treats it as a profile
@@ -107,3 +108,7 @@ LOGIN_REDIRECT_URL = '/profile/'
 
 # Makes @login_required decorator redirect properly
 LOGIN_URL = '/login/'
+
+# Migrates existing user passwords to bcrypt
+# (Also use this if you change encryption rounds)
+#BCRYPT_MIGRATE = True
