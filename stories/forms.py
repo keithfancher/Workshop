@@ -25,7 +25,7 @@ class StoryForm(ModelForm):
 
 
 class AuthorForm(ModelForm):
-    
+
     class Meta:
         model = Author
         fields = ('byline', 'author_bio',)

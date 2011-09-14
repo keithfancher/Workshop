@@ -145,7 +145,7 @@ class CommentsTest(TestCase):
         Anonymous user shouldn't be able to post a comment. Granted, the
         form is already hidden from them, but what if they're crafty with their
         POST requests?
-        
+
         Okay, so it turns out that simply hiding the form is enough, since the
         Comment model won't validate unless the "security hash" is present and
         correct, and the only way for them to calculate that hash is if they

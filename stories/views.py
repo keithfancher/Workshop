@@ -30,11 +30,11 @@ def index(request):
 #
 def stories(request):
     story_list = Story.objects.all()
-    return render_to_response('stories/index.html', 
+    return render_to_response('stories/index.html',
         {'stories': story_list},
         context_instance=RequestContext(request))
 
-#   
+#
 # View a given story
 #
 def story(request, story_id):
@@ -55,10 +55,10 @@ def story(request, story_id):
         {'story': story, 'own_story': own_story},
         context_instance=RequestContext(request))
 
-#    
-# Create a new story    
 #
-@login_required    
+# Create a new story
+#
+@login_required
 def new_story(request):
     # If a POST request, create new story
     if request.method == 'POST':
@@ -81,10 +81,10 @@ def new_story(request):
         {'form': form},
         context_instance=RequestContext(request))
 
-#    
+#
 # Edit an existing story
 #
-@login_required    
+@login_required
 def edit_story(request, story_id):
     # Check if story exists
     try:
@@ -154,7 +154,7 @@ def delete_story(request, story_id):
 #
 def authors(request):
     author_list = User.objects.all()
-    return render_to_response('authors/index.html', 
+    return render_to_response('authors/index.html',
         {'authors': author_list},
         context_instance=RequestContext(request))
 
@@ -168,25 +168,25 @@ def author(request, author_id):
         raise Http404
 
     stories = author.story_set.all()
-    return render_to_response('authors/show.html', 
+    return render_to_response('authors/show.html',
         {'author': author, 'stories': stories},
         context_instance=RequestContext(request))
 
 #
 # Lets a logged in user view their profile
 #
-@login_required    
+@login_required
 def profile(request):
     author = request.user
     stories = author.story_set.all()
-    return render_to_response('registration/profile.html', 
+    return render_to_response('registration/profile.html',
         {'stories': stories},
         context_instance=RequestContext(request))
 
 #
 # Edit your profile
 #
-@login_required    
+@login_required
 def edit_profile(request):
     # POST request, save the profile
     if request.method == 'POST':
@@ -200,7 +200,7 @@ def edit_profile(request):
         form = AuthorForm(instance=request.user.get_profile())
         return render_to_response('registration/edit_profile.html',
             {'form': form},
-            context_instance=RequestContext(request))            
+            context_instance=RequestContext(request))
 
 #
 # Search authors and stories.

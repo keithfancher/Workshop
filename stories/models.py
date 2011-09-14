@@ -8,7 +8,7 @@ class Author(models.Model):
     user = models.ForeignKey(User, unique=True)
     author_bio = models.TextField(blank=True,
                                   help_text="Tell us a little about yourself.")
-    byline = models.CharField(max_length=100, blank=True, 
+    byline = models.CharField(max_length=100, blank=True,
                               help_text="If you leave this blank, your username will be displayed instead.")
 
     # Does this Author own a given Story?
@@ -72,4 +72,4 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         profile, created = Author.objects.get_or_create(user=instance)
 
-post_save.connect(create_user_profile, sender=User)        
+post_save.connect(create_user_profile, sender=User)
