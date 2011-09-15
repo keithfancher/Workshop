@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load comments %}
+{% load markup %}
 
 {% block title %}{{ story.title }}{% endblock %}
 
@@ -24,7 +25,8 @@
 {% endif %}
 
 <div class="story_text">
-    {{ story.text|linebreaks }}
+    {# Make sure "safe" is first argument to disable HTML input! #}
+    {{ story.text|markdown:"safe" }}
 </div>
 
 <hr class="comment_break">

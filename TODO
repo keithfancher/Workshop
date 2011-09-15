@@ -1,7 +1,9 @@
 BASIC SHIT:
 ===========
 * search tests
+* markdown tests
 * list stories user has commented on in their profile (and author page?)
+* documentation
 
 
 MORE SHIT:
@@ -11,7 +13,6 @@ MORE SHIT:
 * password reset emails?
 * use django message system?
 * fancy JS form validation
-* markdown in stories and comments and such?
 * "random story" functionality
 * some kind of categorization
 * a "follow" system

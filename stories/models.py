@@ -40,31 +40,24 @@ class Story(models.Model):
     text = models.TextField() # no max size?
     author_note = models.TextField(blank=True)
 
-    def __unicode__(self):
-        return self.title
+    # Override Model.save() so the text is always preprocessed before it's
+    # saved.
+    def save(self, *args, **kwargs):
+        self.preprocess_text()
+        super(Story, self).save(*args, **kwargs)
 
-    # VERY basic formatting
-    #
-    # TODO: Probably delete this, since in order to actually use it I need to
-    # allow HTML to NOT be escaped, which is bad. Replacing with
-    # add_line_breaks() function below, which rules.
-    def web_output(self):
-        # make different first par later
-        web_out = '<p class="story_par">' + self.text
-        return web_out.replace("\n", '</p><p class="story_par">') + '</p>'
-
-    # This doubles every line break for the inputted story. This allows users
-    # to just copy/paste from Word/OOo documents, and the |linebreaks filter
-    # will properly split up the paragraphs. My previous solution (using
-    # web_output) was NOT safe, and allowed user-input HTML.
-    #
-    # This should be called when the story is first created, but after that it
-    # shouldn't need to be used anymore.
-    def add_line_breaks(self):
-        self.text = self.text.replace("\n", "\n\n")
+    # This turns indent-style paragraphs into a more web-friendly format. This
+    # allows users to simply copy/paste their stories in straight from a word
+    # processor rather than typing or formatting by hand.
+    def preprocess_text(self):
+        self.text = self.text.replace("\t", "\n") # AHA! 1 or two \n's though?
 
     class Meta:
         ordering = ['title']
+        verbose_name_plural = 'stories'
+
+    def __unicode__(self):
+        return self.title
 
 
 # creates an Author object for every User created
