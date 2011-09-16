@@ -9,6 +9,31 @@ from django.contrib.comments.forms import CommentSecurityForm
 from workshop.stories.models import Story
 
 
+class MarkdownTest(TestCase):
+    def setUp(self):
+        self.c = Client()
+        self.user = User.objects.create_user('test', 'test@example.com', 'test')
+
+        self.story = Story()
+        self.story.title = "This is a great story, yeah?"
+        self.story.author = self.user
+        self.story.pub_date = date.today()
+        self.story.text = "This *is* the **text** of the story. <b>Awesome!</b>"
+        self.story.save()
+
+    def test_basic_styling(self):
+        """A basic sanity check, just to make sure markdown exists and bold and
+        italic text is working properly"""
+        response = self.c.get('/stories/' + str(self.story.id) + '/')
+        self.assertContains(response, '<em>is</em>')
+        self.assertContains(response, '<strong>text</strong>')
+
+    def test_html_is_removed(self):
+        """Any raw HTML input by the user should be removed"""
+        response = self.c.get('/stories/' + str(self.story.id) + '/')
+        self.assertContains(response, '[HTML_REMOVED]Awesome![HTML_REMOVED]')
+
+
 class AuthorTest(TestCase):
     def setUp(self):
         self.c = Client()
